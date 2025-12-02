@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz app</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<style>
+   *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+
+  body{
+    min-height: 100vh;
+    background-color: #ffffff;
+    color: #1f2933; /* text color */
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Smooth blur */
+  .bodyBlur{
+    opacity: 0.4;
+    transition: 0.3s ease;
+  }
+
+  /* MAIN AREA */
+  .main{
+    width: 70vw;
+    max-width: 900px;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    margin: 40px auto;
+    border-radius: 20px;
+    background-color: #ffffff;
+    border: 1px solid #f97316;  /* orange accent */
+  }
+
+  /* QUESTION BOX */
+  .QstnDiv{
+    width: 100%;
+    height: 20%;
+    background-color: #ffffff;
+    color: #1f2933;
+    border-radius: 16px;
+    border: 1px solid #f97316;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .Qstn{
+    width: 80%;
+  }
+  .quizNumber{
+    width: 20%;
+  }
+
+  /* OPTIONS */
+  .options{
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option{
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    border: 1px solid #f97316;
+  }
+  .option>p{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .option:hover{
+    background-color: #fff7ed; /* soft orange tint */
+  }
+
+  /* Active selected option */
+  .active{
+    background-color: #f97316 !important;
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 12px;
+  }
+
+  /* NEXT BUTTON */
+  .btnNext{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn{
+    padding: 10px 22px;
+    background-color: #f97316;
+    color: #ffffff;
+    font-size: 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s ease;
+  }
+
+  .btn:hover{
+    background-color: #ea580c;
+  }
+
+  /* RESULT BOXES */
+  .result-box {
+    height: 40vh;
+    max-width: 700px;
+    width: 70vw;
+    text-align: center;
+    padding: 24px 0;
+    border-radius: 18px;
+    font-size: 60px;
+    font-weight: bold;
+    color: #1f2933;
+    margin: 24px auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #f97316;
+    background-color: #ffffff;
+  }
+  .result-box span {
+    font-size: 24px;
+    margin-top: 10px;
+    font-weight: 600;
+  }
+  .score{
+    color: #1f2933;
+    width: 70vw;
+    max-width: 700px;
+    height: 20vh;
+    font-size: 56px;
+    margin: auto;
+    text-align: center;
+  }
+  
+</style>
+<body>
+
+  
+<div id="tabWarning" style="
+  display:none;
+  background:#ff4444;
+  color:white;
+  padding:12px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+">
+</div>
+
+
+ <div class="main">
+        <div class="QstnDiv">
+            <div class="quizNumber">
+                <h1>30</h1>
+            </div>
+            <div class="Qstn">
+            <h3 id="Qstn"></h3>
+            </div>
+        </div>
+        <div class="options">
+            <div class="option">
+                <p id="optiona" data-set="a"></p>
+            </div>
+            <div class="option">
+                <p id="optionb" data-set="b"></p>
+            </div>
+            <div class="option">
+                <p id="optionc" data-set="c"></p>
+            </div>
+            <div class="option" >
+                <p id="optiond"data-set="d"></p>
+            </div>
+        </div>
+        <div class="btnNext">
+            <button class="btn">Next</button>
+        </div>
+</div>
+
+<div class="animate__animated animate__pulse result-box winner-box">
+  🏆
+  <span>Winner</span>
+</div>
+
+<div class="animate__animated animate__pulse result-box loser-box">
+  😞
+  <span>Try Again</span>
+ </h1>
+</div>
+
+<div class="score">
+    <h1 class="totalScore"></h1>
+
+</div>
+
+    <script src="app.js"></script>
+</body>
+</html>

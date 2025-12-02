@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent: #f97316;  /* orange */
+      --text: #1f2933;   /* main text */
+      --bg: #ffffff;     /* background */
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 40px auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .card {
+      display: flex;
+    }
+
+    .card1,
+    .card2 {
+      background-color: var(--bg);
+      border: 1px solid var(--accent);
+      padding: 10px;
+      border-radius: 20px;
+      transition: 0.2s;
+    }
+
+    .card1 {
+      width: 65%;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .card2 {
+      width: 30%;
+      min-width: 250px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card1:hover,
+    .card2:hover {
+      background-color: #fff7ed;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      padding: 15px 0;
+    }
+
+    .btn-open,.btn-close , .btn {
+      display: inline-block;
+      padding: 10px 22px;
+      background-color: var(--accent);
+      color: #ffffff;
+      border-radius: 999px;
+      font-weight: 600;
+      margin-top: 15px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #ea580c;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    .progress-bar{
+      width: 0%;
+      height: 100%;
+      background-color: var(--accent);
+    }
+
+    .progress-container {
+      width: 80%;
+      height: 15px;
+      background-color: var(--bg);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--accent);
+    }
+    .progress{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+    .percentage{
+      width: 10%;
+      display: inline;
+      padding: 5px;
+      font-weight: bolder;
+      font-size: 20px;
+      color: var(--text);
+    }
+    .header p{
+      font-size: 20px;
+    }
+    .statesBox{
+      display: flex;
+      justify-content: space-around ;
+      height: 20%;
+    }
+    .records{
+      text-align: center;
+      height: 15%;
+      margin: 0px;
+    }
+    .Quizbtn{
+      display: flex;
+      justify-content: space-around;
+      cursor: pointer;
+    }
+    .text{
+      height: 40%;
+    }
+    .buttons{
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .passFailBox{
+      background-color: #4aa84a;
+      color: white;
+      padding: 2px 5px;
+      border-radius: 5px;
+      width: fit-content;
+    }
+    
+
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <h1 class="name">Welcome back,</h1> 
+      <p> Choose your next action below.</p>
+    </div>
+
+    <div class="card">
+
+      <div class="card1">
+        <div >
+          <h1 class="records">Records</h1>
+        </div>
+        <div class="progress">
+      <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div> 
+    </div>
+        <div>
+          <p class="percentage"></p>
+        </div>
+
+        </div>
+
+        <div class="statesBox">
+          <div class="quizDetails quizDetails-1">
+            <h3>First Quiz</h3>
+            <p class="score"><span>%</span></p>
+            <h3 class="passFailBox">pass</h3>
+          </div>
+          <div class="quizDetails quizDetails-2">
+            <h3>Second Quiz</h3>
+            <p class="score"><span>%</span></p>
+            <h3 class="passFailBox">pass</h3>
+          </div>
+          <div class="quizDetails quizDetails-3">
+            <h3>Third Quiz</h3>
+            <p class="score"><span>%</span></p>
+            <h3 class="passFailBox">pass</h3>
+          </div>
+        </div> 
+        
+        
+      </div>
+
+      <div class="card2">
+        <div class="text">
+          <h2>Check Your Knowledge</h2>
+        </div>
+       <div class="buttons">
+         <a class="btn Quizbtn quizBtn-1" onclick="startQuiz()">Start Quiz 1 
+          <i class="fa-solid " id="firstQuizLock"></i>
+        </a>
+        <a class="btn Quizbtn quizBtn-2">Start Quiz 1 
+          <i class="fa-solid " id="secondQuizLock"></i>
+        </a>
+        <a class="btn Quizbtn quizBtn-3">Start Quiz 1 
+          <i class="fa-solid " id="thirdQuizLock"></i>
+        </a>
+       </div>
+      </div>
+
+     
+
+    </div>
+
+    <footer>
+      © 2025 Quiz App — All Rights Reserved
+    </footer>
+
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

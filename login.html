@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Quiz App</title>
+</head>
+<style>
+    :root{
+        --accent: #f97316;  /* orange */
+        --text: #1f2933;   /* main text */
+        --bg: #ffffff;     /* background */
+    }
+
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
+
+    body{
+        height: 100vh;
+        background-color: var(--bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: var(--text);
+    }
+
+    /* Page Heading */
+    h1{
+        margin-bottom: 15px;
+        font-size: 30px;
+        color: var(--text);
+    }
+
+    /* Login Box */
+    .box{
+        width: 350px;
+        padding: 30px;
+        border-radius: 18px;
+        background-color: var(--bg);
+        border: 1px solid var(--accent);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    /* Inputs */
+    .box input{
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid var(--accent);
+        background-color: var(--bg);
+        outline: none;
+        transition: 0.2s ease;
+        font-size: 15px;
+        color: var(--text);
+    }
+
+    .box input:focus{
+        background-color: #fff7ed; /* soft orange tint */
+    }
+
+    /* Login Button */
+    #loginBtn{
+        width: 350px;
+        padding: 12px;
+        margin-top: 12px;
+        font-size: 18px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        background-color: var(--accent);
+        color: #fff;
+        transition: 0.2s ease;
+    }
+
+    #loginBtn:hover{
+        background-color: #ea580c;
+    }
+
+    /* Signup Link */
+    a{
+        margin-top: 15px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: 0.2s ease;
+    }
+
+    a:hover{
+        color: #ea580c;
+    }
+    .header{
+        width: 100%;
+        padding: 15px 0;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .header h2{
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--accent);
+        letter-spacing: 1px;
+    }
+
+</style>
+<body>
+
+    <div class="header">
+    <h2>Quiz App</h2>
+</div>
+
+
+<h1>Login page</h1>
+
+<div class="box">
+    <input type="email" placeholder="email"  id="loginEmail">
+    <input type="password" placeholder="password" id="loginPassword">
+</div>
+
+<button id="loginBtn">LOGIN</button>
+
+
+<a href="./signup.html">Create new account</a>
+    <script src="login.js"></script>
+</body>
+</html>

@@ -28,7 +28,8 @@ e.preventDefault
         "email" : email.value,
         "password" : password.value,
         "attemps" :0,
-        "progress" : []
+        "progress" : ["HTML","CSS","JS"],
+        "QuestionsArray" : 0
     }
 
 
@@ -55,4 +56,3 @@ if(checkEmail.length >= 1){
 
     window.location = "login.html"
 })
-

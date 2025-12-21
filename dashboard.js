@@ -10,7 +10,7 @@ const passFailBox = document.querySelectorAll(".passFailBox")
 
 
 
-let totalMarks = 0;
+// let totalMarks = 0;
 
 
 
@@ -36,9 +36,10 @@ currentUserIndex = usersArr.findIndex((indx)=>{
 })
 
 
-
+// console.log(passFailBox)
 usersArr[currentUserIndex].progress.forEach((score ,indx) => {
 if(typeof(score) == "number"){
+  
     if(score >= 70){
       passFailBox[indx].innerText = "pass"
       passFailBox[indx].style.backgroundColor = "#4aa84a"
@@ -46,25 +47,15 @@ if(typeof(score) == "number"){
   }else if (score <= 69 ){
     passFailBox[indx].innerText = "fail"
       passFailBox[indx].style.backgroundColor = "red"
+      console.log(passFailBox)
     console.log("fail")
-  }}else{
-    
+  }}else if (typeof(score) != "number"){
+    scores[indx].innerText = ""
   }
 
 
 
-scores[indx].innerText += score
 })
-
-// scores.forEach((elm, index) => {
-
-  
-
-
-
-//   // elm.innerText = `Score: ${usersArr[currentUserIndex].progress[index]}`
-// })
-
 
 
 
@@ -75,9 +66,9 @@ scores[indx].innerText += score
   }
 
   
-  if(usersArr[currentUserIndex].progress[1] >= 70){
+  if(usersArr[currentUserIndex].progress[0] >= 70){
     secondQuizLock.classList.add("fa-lock-open")
-    secondQuizLock.setAttribute("onclick", "startQuiz()");
+    secondQuizLock.parentElement.setAttribute("onclick", "startQuiz(1)");
 
   }else{
     secondQuizLock.classList.add("fa-lock")
@@ -89,7 +80,7 @@ scores[indx].innerText += score
 
    
   if(usersArr[currentUserIndex].progress[2] >= 70){
-    thirdQuizLock.setAttribute("onclick", "startQuiz()");
+    thirdQuizLock.parentElement.setAttribute("onclick", "startQuiz(2)");
     thirdQuizLock.classList.add("fa-lock-open")
   }else{
     thirdQuizLock.classList.add("fa-lock")
@@ -103,8 +94,8 @@ scores[indx].innerText += score
 
   //QuizRulesAlert
 
-function startQuiz() {
-  window.location = "index.html"
+function startQuiz(Quiz) {
+  
   alert(
     "📢 QUIZ RULES:\n\n" +
     "1. You have 2 chances if you switch tabs.\n" +
@@ -113,19 +104,27 @@ function startQuiz() {
     "4. Do not minimize or close your browser.\n\n" +
     "Click OK to start the quiz."
   )
-
+  window.location = "index.html"
+usersArr[currentUserIndex].QuestionsArray = Quiz
 };
 
 
-//ProgressBar
 
 
-// if(usersArr[currentUserIndex].progress.length === 0){
-//   percentage.innerText = "0%"
-// }else{
-// percentage.innerText = totalMarks /((usersArr[currentUserIndex].progress.length)*100) * 100
-// }
-// progressBar.style.width = percentage.innerText
+const arr = usersArr[currentUserIndex].progress
+
+const totalMarks = arr.reduce((sum, value) => sum + value, 0);
+
+// console.log(totalMarks);
+
+
+
+if(usersArr[currentUserIndex].progress.length == 0){
+  percentage.innerText = "0%"
+}else{
+percentage.innerText = Math.ceil(totalMarks /((arr.length)*100) * 100 )
+progressBar.style.width = totalMarks /((arr.length)*100) * 100 + "%"
+}
 
 
 

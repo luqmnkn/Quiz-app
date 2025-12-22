@@ -6,259 +6,592 @@
   <title>User Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --accent: #f97316;
-      --text: #1f2933;
-      --bg: #ffffff;
+    :root {
+      --primary: #2a2a2a; /* lighter black */
+      --secondary: #3e3e3e; /* medium grey */
+      --text: #d4d4d4; /* light grey text */
+      --accent: #6a5acd; /* purple */
+      --accent-hover: #7b68ee; /* lighter purple */
+      --accent-gradient: linear-gradient(135deg, #6a5acd, #7b68ee); /* purple gradient */
+      --card-gradient: linear-gradient(135deg, #2a2a2a, #3e3e3e); /* light black gradient */
+      --header-gradient: linear-gradient(135deg, #2a2a2a, #6a5acd); /* black to purple gradient */
+      --border: #4b4b4b; /* dark border */
+      /* Light gradients for cards */
+      --light-card-gradient: linear-gradient(135deg, #3a3a3a, #4a4a4a, #3e3e3e); /* light black-grey gradient */
+      --light-card1-gradient: linear-gradient(135deg, #3a3a3a, #4a4a4a, #5a5a5a); /* light grey gradient */
+      --light-card2-gradient: linear-gradient(135deg, rgba(106, 90, 205, 0.15), rgba(123, 104, 238, 0.1), rgba(106, 90, 205, 0.15)); /* light purple gradient */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background-color: var(--bg);
+      background-color: var(--primary);
       color: var(--text);
-    }
-
-    /* TOP BAR */
-    .topbar{
-      width: 90%;
-      display: flex;
-      justify-content: flex-end;
-      padding: 15px 25px;
-      gap: 15px;
-    }
-    .top-btn{
-      background-color: var(--accent);
-      color: white;
-      padding: 8px 18px;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: 600;
-      text-decoration: none;
+      font-family: "Poppins", sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
     }
 
     .container {
-      width: 100%;
+      width: 90%;
       max-width: 1100px;
-      margin: 20px auto;
+      margin: 40px auto;
+      padding: 20px;
+      border-radius: 15px;
+      background: var(--card-gradient);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       text-align: center;
-      margin-bottom: 40px;
+      padding: 25px;
+      background: var(--header-gradient);
+      border-radius: 15px;
+      margin-bottom: 25px;
+      height: 150px;
+      box-shadow: 0 6px 20px rgba(106, 90, 205, 0.3);
     }
 
-    .header h1 {
+    .profile {
+      flex: 0 0 20%; /* Allocate 20% of the header's width */
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin-right: 20px;
+    }
+
+    .welcomeText {
+      flex: 0 0 80%; /* Allocate 80% of the header's width */
+      text-align: left; /* Align text to the left */
+    }
+
+    .welcomeText h1 {
       font-size: 2.4rem;
       font-weight: 600;
       color: var(--accent);
     }
 
     .card {
-      width: 100%;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      background: var(--light-card-gradient); /* Light gradient background */
+      border: 1px solid var(--border); /* Add border */
+      color: var(--text); /* Set text color */
+      padding: 25px; /* Add padding */
+      border-radius: 15px; /* Rounded corners */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Subtle shadow */
+      transition: box-shadow 0.3s ease;
+      width: 100%; /* Ensure it takes full width */
+      margin: 10px 0; /* Add spacing between cards */
+      height: 450px; /* Set fixed height for parent card */
+      display: flex; /* Use flexbox for layout */
+      gap: 20px; /* Add gap between card1 and card2 */
     }
 
-    /* 60% AND 40% WIDTH */
-    .card1{
-      flex: 0 0 60%;
-      background-color: var(--bg);
-      border: 1px solid var(--accent);
-      padding: 20px;
-      border-radius: 20px;
-      transition: 0.2s;
-      min-width: 280px;
-    }
-    .card2{
-      flex: 0 0 30%;
-      background-color: var(--bg);
-      border: 1px solid var(--accent);
-      padding: 20px;
-      border-radius: 20px;
-      transition: 0.2s;
-      min-width: 280px;
+    .card:hover {
+      box-shadow: 0 6px 20px rgba(106, 90, 205, 0.2);
     }
 
-    /* Hover */
-    .card1:hover,
-    .card2:hover {
-      background-color: #fff7ed;
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: var(--accent-gradient);
+      color: #ffffff;
+      border-radius: 999px;
+      font-weight: 600;
+      margin-top: 15px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
+      border: none;
+      cursor: pointer;
     }
 
-    .records{
-      text-align: center;
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-    }
-
-    .progress {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
+    .btn:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 6px 20px rgba(106, 90, 205, 0.4);
     }
 
     .progress-container {
-      width: 65%;
-      height: 15px;
-      background-color: var(--bg);
+      width: 100%;
+      height: 18px;
+      background-color: var(--secondary);
       border-radius: 20px;
       overflow: hidden;
-      border: 1px solid var(--accent);
-      min-width: 200px;
+      border: 1px solid var(--border);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+      position: relative;
+      max-width: 75%;
     }
 
-    .progress-bar{
-      width: 0;
+    .progress-bar {
+      width: 0%;
       height: 100%;
-      background-color: var(--accent);
+      background: var(--accent-gradient);
+      transition: width 0.8s ease;
     }
 
-    .percentage{
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .statesBox{
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .quizDetails{
+    footer {
       text-align: center;
-      flex: 1;
-      min-width: 150px;
+      margin-top: 50px;
+      opacity: 0.8;
+      font-size: 0.9rem;
+      color: var(--text);
+      padding: 20px;
     }
 
-    .scoreBox{
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .dashboard .card h2 {
+      font-size: 1.5rem;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .dashboard .card p {
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .logout {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      background: var(--accent-gradient);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(106, 90, 205, 0.3);
+    }
+
+    .logout:hover {
+      background-color: var(--accent-hover);
+      box-shadow: 0 6px 15px rgba(106, 90, 205, 0.4);
+    }
+
+    .progress{
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px;
+      gap: 15px;
+      margin-bottom: 20px;
+      height: auto;
+    }
+    .percentage{
+      min-width: 55px;
+      display: inline-block;
+      padding: 4px 8px;
+      font-weight: bolder;
+      font-size: 18px;
+      color: var(--accent);
+      text-align: center;
+    }
+    .welcomeText p{
+      font-size: 20px;
+    }
+    .statesBox{
+      display: flex;
+      justify-content: space-around;
+      background: linear-gradient(135deg, rgba(58, 58, 58, 0.5), rgba(74, 74, 74, 0.5)); /* Light grey gradient */
+      border: 1px solid var(--border); /* Add border */
+      border-radius: 12px; /* Add rounded corners */
+      padding: 12px; /* Add padding */
+      gap: 8px;
+      margin-top: auto; /* Push to bottom */
+      min-height: 120px;
     }
 
+    .quizDetails {
+      flex: 1;
+      text-align: center;
+      padding: 10px 6px;
+      border-radius: 10px;
+      background: rgba(106, 90, 205, 0.05);
+      transition: background-color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 95px;
+    }
+
+    .quizDetails:hover {
+      background: rgba(106, 90, 205, 0.1);
+    }
+
+    .quizDetails h3 {
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .quizDetails .score {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 4px 0;
+      color: var(--accent);
+      min-height: 20px;
+    }
+    .records{
+      text-align: center;
+      margin: 0 0 15px 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      padding: 8px 0;
+      height: auto;
+    }
+    .Quizbtn{
+      display: flex;
+      background: var(--header-gradient);
+      justify-content: space-around;
+      cursor: pointer;
+    }
+    .text{
+      height: 40%;
+    }
+    .buttons{
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+    }
     .passFailBox{
-      background-color: rgb(164, 230, 164);
+      background-color: var(--accent);
       color: white;
-      padding: 2px 5px;
-      border-radius: 5px;
-      font-size: 16px;
-      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 6px;
+      width: fit-content;
+      margin: 4px auto 0;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(106, 90, 205, 0.3);
+    }
+    /* .profile{
+      height: 100px;
+    } */
+     .proflie{
+      width: 20%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+     }
+    .profileImg{
+      width: 80px;
+      height: 80px;
+      display: block;
+      border-radius: 50%;
+      background-color: var(--accent);
+      background-position: center;
+      background-size: cover;
+      
+    }
+    .profilePic i {
+      width: 80px;
+      height: 80px;
+      display: block;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      background-position: center;
+      background-size: cover;
+      font-size: 40px;
+      color: white;
+      text-align: center;
+      line-height: 80px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 15px rgba(106, 90, 205, 0.4);
+      transition: box-shadow 0.3s ease;
     }
 
-    .card2 .buttons{
+    .profilePic i:hover {
+      box-shadow: 0 6px 20px rgba(106, 90, 205, 0.5);
+    }
+    .card1:hover, .card2:hover {
+      box-shadow: 0 6px 20px rgba(106, 90, 205, 0.2);
+    }
+
+    .card2 .text h2 {
+      font-size: 1.8rem; /* Slightly larger heading */
+      font-weight: 600; /* Bold heading */
+      color: #ffffff; /* White text for better contrast */
+      margin-bottom: 15px; /* Add spacing below heading */
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .card2 .buttons .btn {
+      margin: 12px 0; /* Add spacing between buttons */
+      background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+      backdrop-filter: blur(10px);
+      color: #ffffff; /* White text */
+      border-radius: 999px; /* Fully rounded buttons */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .card2 .buttons .btn:hover {
+      background: rgba(255, 255, 255, 0.3); /* More opaque on hover */
+      box-shadow: 0 6px 20px rgba(106, 90, 205, 0.4);
+    }
+
+    .card1, .card2 {
+      flex: 1; /* Equal width for both cards */
+      box-sizing: border-box; /* Include padding and border in width */
+      height: 100%; /* Fill parent height */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card1 {
+      background: var(--light-card1-gradient); /* Light grey gradient */
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 15px;
     }
 
-    .btn {
+    .card2 {
+      background: var(--light-card2-gradient); /* Light purple gradient */
+      border: 1px solid rgba(106, 90, 205, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .card1 .progress {
       display: flex;
+      flex-direction: row; /* Horizontal layout for progress bar and percentage */
+      align-items: center; /* Center-align progress elements */
       justify-content: space-between;
-      align-items: center;
-      padding: 12px 18px;
-      background-color: var(--accent);
-      color: #fff;
-      border-radius: 50px;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
+      gap: 12px; /* Add spacing between progress elements */
+      padding: 15px 0;
+      margin-bottom: 15px;
+      height: auto;
     }
 
-    .btn:hover {
-      background-color: #ea580c;
+    .card1 .progress-container {
+      flex: 1; /* Take remaining space */
+      max-width: 75%;
+      height: 18px;
     }
 
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      opacity: 0.8;
-      font-size: 0.9rem;
+    .card1 .btn {
+      display: block; /* Ensure buttons are stacked vertically */
+      width: 80%; /* Adjust button width */
+      margin: 10px auto; /* Center buttons and add spacing */
+      text-align: center; /* Center-align text inside buttons */
     }
 
-    /* MOBILE: 50% - 50% */
-    @media (max-width: 600px){
-      .card1,
-      .card2{
-        flex: 0 0 100%;
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .card {
+        flex-direction: column;
+        height: auto;
+        min-height: 450px;
       }
+
+      .card1, .card2 {
+        width: 100%;
+        min-height: 400px;
+      }
+
+      .header {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+      }
+
+      .profile {
+        flex: 1;
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+
+      .welcomeText {
+        flex: 1;
+        text-align: center;
+      }
+
+      .welcomeText h1 {
+        font-size: 1.8rem;
+      }
+
+      .statesBox {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .quizDetails {
+        width: 100%;
+      }
+
+      .container {
+        width: 95%;
+        padding: 15px;
+      }
+    }
+
+    /* Smooth scroll behavior */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Selection color */
+    ::selection {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Focus styles for accessibility */
+    .btn:focus,
+    .logout:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Loading animation for quiz buttons */
+    .Quizbtn {
+      position: relative;
+    }
+
+    .Quizbtn[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Quiz button lock/unlock states */
+    .Quizbtn .fa-lock {
+      color: #ffffff !important; /* Orange/red for locked */
+      margin-left: 8px;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    .Quizbtn .fa-lock-open {
+      color: #715fda!important; /* Green for unlocked */
+      margin-left: 8px;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    /* Lock icon styling */
+    #firstQuizLock,
+    #secondQuizLock,
+    #thirdQuizLock {
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    /* Smooth font rendering */
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
   </style>
 </head>
 <body>
-
-  <div class="topbar">
-    <a class="top-btn"><i class="fa-regular fa-user"></i> Profile</a>
-    <a class="top-btn"><i class="fa-solid fa-toggle-off"></i> Logout</a>
-  </div>
-
   <div class="container">
 
-    <div class="header">
-      <h1 class="name">Welcome back,</h1>
-      <p>Choose your next action below.</p>
-    </div>
 
+<div class="header">
+
+  <div class="profile">
+    <div class="profilePic">
+
+      </div>
+      <button class="logout" onclick="userLogout()">Logout</button>
+  </div>
+  <div class="welcomeText">
+      <h1 class="name">Welcome back,</h1> 
+      <p> Choose your next action below.</p>
+  </div>
+
+</div>
     <div class="card">
 
       <div class="card1">
-        <h1 class="records">Records</h1>
-
+        <div >
+          <h1 class="records">Records</h1>
+        </div>
         <div class="progress">
-          <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-          </div>
-          <div class="percentage"><span id="percentageVal"></span>%</div>
+      <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div> 
+    </div>
+        <div>
+          <p class="percentage"></p>
+        </div>
+
         </div>
 
         <div class="statesBox">
           <div class="quizDetails quizDetails-1">
-            <h3>HTML Quiz</h3>
-            <div class="scoreBox">
-              <p class="score"></p>
-              <p class="passFailBox">Not Attempted</p>
-            </div>
+            <h3>First Quiz</h3>
+            <p class="score"><span></span></p>
+            <h3 class="passFailBox">Not Attemped</h3>
           </div>
-
           <div class="quizDetails quizDetails-2">
-            <h3>CSS Quiz</h3>
-            <div class="scoreBox">
-              <p class="score"></p>
-              <p class="passFailBox">Not Attempted</p>
-            </div>
+            <h3>Second Quiz</h3>
+            <p class="score"><span></span></p>
+            <h3 class="passFailBox">Not Attemped</h3>
           </div>
-
           <div class="quizDetails quizDetails-3">
-            <h3>JS Quiz</h3>
-            <div class="scoreBox">
-              <p class="score"></p>
-              <p class="passFailBox">Not Attempted</p>
-            </div>
+            <h3>Third Quiz</h3>
+            <p class="score"><span></span></p>
+            <h3 class="passFailBox">Not Attemped</h3>
           </div>
-        </div>
+        </div> 
+        
+        
       </div>
 
       <div class="card2">
-        <h2>Check Your Knowledge</h2>
-
-        <div class="buttons">
-          <a class="btn Quizbtn quizBtn-1" onclick="startQuiz(0)">HTML Quiz <i class="fa-solid" id="firstQuizLock"></i></a>
-          <a class="btn Quizbtn quizBtn-2">CSS Quiz <i class="fa-solid" id="secondQuizLock"></i></a>
-          <a class="btn Quizbtn quizBtn-3">JavaScript Quiz <i class="fa-solid" id="thirdQuizLock"></i></a>
+        <div class="text">
+          <h2>Check Your Knowledge</h2>
         </div>
+       <div class="buttons">
+         <a class="btn Quizbtn quizBtn-1" onclick="startQuiz('HTML')">HTML Quiz
+          <i class="fa-solid " id="firstQuizLock"></i>
+        </a>
+        <a class="btn Quizbtn quizBtn-2">CSS Quiz
+          <i class="fa-solid " id="secondQuizLock"></i>
+        </a>
+        <a class="btn Quizbtn quizBtn-3">JavaScript Quiz
+          <i class="fa-solid " id="thirdQuizLock"></i>
+        </a>
+       </div>
       </div>
+
     </div>
 
-    <footer>© 2025 Quiz App — All Rights Reserved</footer>
+    <footer>
+     <p> © 2025 Quiz App — All Rights Reserved </p>
+    </footer>
 
   </div>
 

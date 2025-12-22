@@ -4,129 +4,177 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Quiz App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2a2a2a;
+            --secondary: #3e3e3e;
+            --text: #d4d4d4;
+            --accent: #6a5acd;
+            --accent-hover: #7b68ee;
+            --accent-gradient: linear-gradient(135deg, #6a5acd, #7b68ee);
+            --card-gradient: linear-gradient(135deg, #2a2a2a, #3e3e3e);
+            --border: #4b4b4b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--primary);
+            color: var(--text);
+            animation: fadeIn 0.4s ease-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Container for 50/50 Split */
+        main {
+            display: flex;
+            width: 100%;
+            max-width: 1000px; /* Optional: limits total width for better UI */
+            min-height: 80vh;
+            align-items: center;
+        }
+
+        /* Form Side (50%) */
+        .form {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        /* Logo Side (50%) */
+        .logo {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Adjustments to existing classes */
+        .header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h2 {
+            font-size: 28px;
+            color: var(--accent);
+        }
+
+        h1 {
+            margin-bottom: 15px;
+            font-size: 30px;
+        }
+
+        .box {
+            width: 100%; /* Changed from 350px to fill its half */
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 18px;
+            background: var(--card-gradient);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .box input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: rgba(58, 58, 58, 0.3);
+            color: var(--text);
+            outline: none;
+        }
+
+        #loginBtn {
+            width: 100%; /* Changed from 350px to match box */
+            max-width: 400px;
+            padding: 12px;
+            margin-top: 18px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            background: var(--accent-gradient);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
+        }
+
+        a {
+            margin-top: 15px;
+            text-decoration: none;
+            color: var(--accent);
+        }
+
+        /* Logo Question Marks */
+        .qstnMark {
+            display: inline-block;
+            font-size: 50px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .qstnMark:nth-child(1) { transform: rotate(-15deg); font-size: 200px; }
+        .qstnMark:nth-child(2) { transform: rotate(0deg); font-size: 300px; }
+        .qstnMark:nth-child(3) { transform: rotate(15deg); font-size: 200px; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            main { flex-direction: column-reverse; }
+            .form, .logo { width: 100%; }
+        }
+    </style>
 </head>
-<style>
-    :root{
-        --accent: #f97316;  /* orange */
-        --text: #1f2933;   /* main text */
-        --bg: #ffffff;     /* background */
-    }
-
-    *{
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-    }
-
-    body{
-        height: 100vh;
-        background-color: var(--bg);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: var(--text);
-    }
-
-    /* Page Heading */
-    h1{
-        margin-bottom: 15px;
-        font-size: 30px;
-        color: var(--text);
-    }
-
-    /* Login Box */
-    .box{
-        width: 350px;
-        padding: 30px;
-        border-radius: 18px;
-        background-color: var(--bg);
-        border: 1px solid var(--accent);
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-    }
-
-    /* Inputs */
-    .box input{
-        width: 100%;
-        padding: 12px;
-        border-radius: 12px;
-        border: 1px solid var(--accent);
-        background-color: var(--bg);
-        outline: none;
-        transition: 0.2s ease;
-        font-size: 15px;
-        color: var(--text);
-    }
-
-    .box input:focus{
-        background-color: #fff7ed; /* soft orange tint */
-    }
-
-    /* Login Button */
-    #loginBtn{
-        width: 350px;
-        padding: 12px;
-        margin-top: 12px;
-        font-size: 18px;
-        border-radius: 999px;
-        border: none;
-        cursor: pointer;
-        background-color: var(--accent);
-        color: #fff;
-        transition: 0.2s ease;
-    }
-
-    #loginBtn:hover{
-        background-color: #ea580c;
-    }
-
-    /* Signup Link */
-    a{
-        margin-top: 15px;
-        text-decoration: none;
-        font-size: 16px;
-        transition: 0.2s ease;
-    }
-
-    a:hover{
-        color: #ea580c;
-    }
-    .header{
-        width: 100%;
-        padding: 15px 0;
-        text-align: center;
-        margin-bottom: 25px;
-    }
-
-    .header h2{
-        font-size: 28px;
-        font-weight: 600;
-        color: var(--accent);
-        letter-spacing: 1px;
-    }
-
-</style>
 <body>
 
-    <div class="header">
-    <h2>Quiz App</h2>
-</div>
+<main>
+    <div class="form">
+        <div class="header">
+            <h2>Quiz App</h2>
+        </div>
 
+        <h1>Login page</h1>
 
-<h1>Login page</h1>
+        <div class="box">
+            <input type="email" placeholder="email" id="loginEmail">
+            <input type="password" placeholder="password" id="loginPassword">
+        </div>
 
-<div class="box">
-    <input type="email" placeholder="email"  id="loginEmail">
-    <input type="password" placeholder="password" id="loginPassword">
-</div>
+        <button id="loginBtn">LOGIN</button>
+        <a href="./signup.html">Create new account</a>
+    </div>
 
-<button id="loginBtn">LOGIN</button>
+    <div class="logo">
+        <span class="qstnMark">?</span>
+        <span class="qstnMark">?</span>
+        <span class="qstnMark">?</span>
+    </div>
+</main>
 
-
-<a href="./signup.html">Create new account</a>
-    <script src="login.js"></script>
+<script src="login.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-const Questionbox = document.querySelector("#Qstn")
+const Question = document.querySelector("#Qstn")
 const a = document.querySelector("#optiona")
 const b = document.querySelector("#optionb")
 const c = document.querySelector("#optionc")
@@ -7,524 +7,420 @@ const btnNext = document.querySelector(".btn")
 const ScoreDisplay = document.querySelector(".options")
 const quizNum = document.querySelector(".quizNumber")
 const winnerBox = document.querySelector(".winner-box")
+console.log(winnerBox)
 const loserBox = document.querySelector(".loser-box")
 const MainBox = document.querySelector(".main")
 const totalScore = document.querySelector(".totalScore")
 const scoreContainer = document.querySelector(".score")
 const userName = document.querySelector(".name")
+const userInfo = document.querySelector(".user-info")
+const QuizName = document.querySelector(".quizName")
+const timerBox = document.querySelector(".timer");
+const timerText = document.querySelector(".timer p:last-child");
 
-
+//Users Data
 let usersArr = JSON.parse(localStorage.getItem("user1"))
 
-let thisUser = JSON.parse(localStorage.getItem("currentUserEmail"))
-if(!thisUser){
-  window.location = "signup.html"
+
+//Current User
+let currentUser = JSON.parse(localStorage.getItem("currentUser"))
+if (!currentUser) {
+    window.location = "signup.html"
 }
-currentUserIndex = usersArr.findIndex((indx)=>{
-    return indx.email == thisUser.email
+
+//Current User Index
+let currentUserIndex = usersArr.findIndex((indx) => {
+    return indx.email == currentUser.email
 })
 
 
-// console.log(usersArr[currentUserIndex].progress.length)
+//user information
+userInfo.innerHTML = `<p><strong>Name:</strong> ${currentUser.firstName} ${currentUser.SecondName}</p>
+        <p><strong>Quiz Name:</strong> ${currentUser.Quiz}</p>
+        <p><strong>Email:</strong> ${currentUser.email}</p>`
+ 
 
-let arrayIndx = usersArr[currentUserIndex].QuestionsArray
-
+//Questions Array        
 const QstnArray = [
 
-[
-  {Question: "Which HTML tag is used to define metadata?", a: "<meta>", b: "<header>", c: "<link>", d: "<data>", answer: "a"},
-  {Question: "Which attribute is used to uniquely identify an HTML element?", a: "class", b: "id", c: "name", d: "key", answer: "b"},
-  {Question: "Which tag is used for semantic grouping of navigation links?", a: "<menu>", b: "<nav>", c: "<aside>", d: "<section>", answer: "b"},
-  {Question: "Which HTML element is NOT semantic?", a: "<article>", b: "<div>", c: "<footer>", d: "<header>", answer: "b"},
-  {Question: "Which attribute is used to open a link in a new tab?", a: "target='_blank'", b: "href='new'", c: "rel='new'", d: "open='tab'", answer: "a"},
-  {Question: "Correct tag for inserting JavaScript in HTML?", a: "<js>", b: "<javascript>", c: "<script>", d: "<link>", answer: "c"},
-  {Question: "Which tag is used for table headings?", a: "<th>", b: "<td>", c: "<tr>", d: "<thead>", answer: "a"},
-  {Question: "Which input type is used for emails?", a: "text", b: "email", c: "mail", d: "address", answer: "b"},
-  {Question: "Which HTML element is used for a dropdown?", a: "<input>", b: "<datalist>", c: "<select>", d: "<option>", answer: "c"},
-  {Question: "Audio tag requires which attribute?", a: "src", b: "file", c: "audio", d: "track", answer: "a"},
-  {Question: "Which tag is used for responsive images?", a: "<img>", b: "<responsive>", c: "<srcset>", d: "<picture>", answer: "d"},
-  {Question: "Which tag improves SEO?", a: "<b>", b: "<i>", c: "<strong>", d: "<span>", answer: "c"},
-  {Question: "Which HTML version supports semantic tags?", a: "HTML3", b: "HTML4", c: "HTML5", d: "XHTML", answer: "c"},
-  {Question: "How to embed a video?", a: "<media>", b: "<video>", c: "<movie>", d: "<clip>", answer: "b"},
-  {Question: "Which tag defines a self-contained content?", a: "<section>", b: "<article>", c: "<aside>", d: "<div>", answer: "b"},
-  {Question: "Inline element among these?", a: "<p>", b: "<div>", c: "<span>", d: "<section>", answer: "c"},
-  {Question: "Which attribute is required in <img>?", a: "href", b: "alt", c: "title", d: "value", answer: "b"},
-  {Question: "Which tag is used for forms?", a: "<form>", b: "<input>", c: "<submit>", d: "<label>", answer: "a"},
-  {Question: "Which attribute is used to validate required fields?", a: "need", b: "mandatory", c: "required", d: "validate", answer: "c"},
-  {Question: "Which tag defines the main content?", a: "<body>", b: "<main>", c: "<section>", d: "<content>", answer: "b"}
-],
-
-[
-  {Question: "Which unit is relative to root font size?", a: "px", b: "em", c: "rem", d: "%", answer: "c"},
-  {Question: "Which property controls text spacing?", a: "letter-spacing", b: "padding", c: "spacing", d: "line-gap", answer: "a"},
-  {Question: "Flexbox direction for horizontal alignment?", a: "row", b: "column", c: "inline", d: "flex-start", answer: "a"},
-  {Question: "To center items vertically in Flexbox?", a: "align-items: center", b: "justify-content: center", c: "text-align: center", d: "vertical-align: middle", answer: "a"},
-  {Question: "Which selector selects child elements?", a: "A B", b: "A > B", c: "A + B", d: "A ~ B", answer: "b"},
-  {Question: "Which property makes an element stay fixed during scroll?", a: "position: static", b: "position: absolute", c: "position: fixed", d: "position: sticky", answer: "c"},
-  {Question: "Which CSS feature creates responsive layouts?", a: "Grid", b: "Canvas", c: "Frame", d: "Template", answer: "a"},
-  {Question: "What does z-index control?", a: "opacity", b: "size", c: "stacking order", d: "shadow", answer: "c"},
-  {Question: "Which property adds space inside a box?", a: "margin", b: "padding", c: "border", d: "gap", answer: "b"},
-  {Question: "Which value makes text bold?", a: "font-weight: strong", b: "font-weight: bold", c: "text-bold", d: "weight:bold", answer: "b"},
-  {Question: "Which pseudo-class selects hover state?", a: "::hover", b: ":hover", c: "::select", d: ":active", answer: "b"},
-  {Question: "Which property is used for animations?", a: "keyframes", b: "animate", c: "transition", d: "transform", answer: "c"},
-  {Question: "Which property controls grid columns?", a: "grid-template-rows", b: "grid-gap", c: "grid-template-columns", d: "grid-line", answer: "c"},
-  {Question: "Default position of elements?", a: "relative", b: "static", c: "absolute", d: "fixed", answer: "b"},
-  {Question: "Which unit is responsive to screen width?", a: "vw", b: "vh", c: "%", d: "rem", answer: "a"},
-  {Question: "Shadow around an element is applied using?", a: "text-shadow", b: "outer-shadow", c: "box-shadow", d: "shadow", answer: "c"},
-  {Question: "To hide an element visually but keep its space:", a: "display: none", b: "visibility: hidden", c: "opacity: 0", d: "filter: none", answer: "b"},
-  {Question: "Which CSS rule imports external stylesheet?", a: "@media", b: "@include", c: "@import", d: "@style", answer: "c"},
-  {Question: "Rounded corners are created using:", a: "border-round", b: "corner", c: "border-radius", d: "shape", answer: "c"},
-  {Question: "Which is NOT a display type?", a: "flex", b: "block", c: "list", d: "inline", answer: "c"}
-],
+{ Question: "HTML stands for ________", a: "Hyper Text Markup Language", b: "High Text Machine Language", c: "Hyper Tool Markup Language", d: "Hyperlinks Text Mark Language", answer: "a" },
 
-[
-  {Question: "Which keyword declares a block-scoped variable?", a: "var", b: "let", c: "const", d: "scope", answer: "b"},
-  {Question: "Which method converts a JSON string to an object?", a: "JSON.stringify()", b: "JSON.parse()", c: "parseInt()", d: "toObject()", answer: "b"},
-  {Question: "Which symbol is used for strict equality?", a: "==", b: "===", c: "!=", d: "=", answer: "b"},
-  {Question: "Which array method adds an item at the end?", a: "push()", b: "pop()", c: "shift()", d: "unshift()", answer: "a"},
-  {Question: "Which method loops over an array?", a: "map()", b: "loop()", c: "iterate()", d: "scan()", answer: "a"},
-  {Question: "Which JS feature handles asynchronous tasks?", a: "Loops", b: "Promises", c: "Variables", d: "Objects", answer: "b"},
-  {Question: "typeof null returns?", a: "null", b: "undefined", c: "object", d: "string", answer: "c"},
-  {Question: "Which keyword stops further code execution?", a: "break", b: "return", c: "stop", d: "exit", answer: "b"},
-  {Question: "Which method removes last array element?", a: "shift()", b: "pop()", c: "splice()", d: "cut()", answer: "b"},
-  {Question: "Functions inside objects are called?", a: "methods", b: "props", c: "keys", d: "handlers", answer: "a"},
-  {Question: "Which operator is used for exponent?", a: "^", b: "**", c: "//", d: "exp()", answer: "b"},
-  {Question: "Which statement handles errors?", a: "try...catch", b: "throw", c: "catch", d: "protect", answer: "a"},
-  {Question: "DOM stands for:", a: "Document Object Model", b: "Data Object Method", c: "Digital Object Manager", d: "Document Oriented Mode", answer: "a"},
-  {Question: "How to write arrow function?", a: "() <> {}", b: "() -> {}", c: "() => {}", d: "() =>[]", answer: "c"},
-  {Question: "Which loop runs at least once?", a: "for", b: "while", c: "do...while", d: "foreach", answer: "c"},
-  {Question: "Which value is falsy?", a: "1", b: "'0'", c: "true", d: "0", answer: "d"},
-  {Question: "Which method selects element by ID?", a: "querySelector()", b: "getElementById()", c: "getId()", d: "findId()", answer: "b"},
-  {Question: "Event that fires on input change:", a: "onclick", b: "onload", c: "onchange", d: "onhover", answer: "c"},
-  {Question: "Which converts number to string?", a: "toString()", b: "JSON()", c: "Stringify()", d: "numToStr()", answer: "a"},
-  {Question: "Which concept allows functions inside functions?", a: "Scope", b: "Callbacks", c: "Closures", d: "Events", answer: "c"}
-]
+{ Question: "Which tag is used to create a hyperlink?", a: "<link>", b: "<a>", c: "<href>", d: "<url>", answer: "b" },
 
-]
+{ Question: "Which tag is used to insert an image?", a: "<image>", b: "<img>", c: "<src>", d: "<picture>", answer: "b" },
 
-console.log(Questionbox)
-// const QstnArray = [
-//     {Question: "Pakistan came into being on______", a: "14 Aug 1947", b: "14 Dec 1947", c: "14 Jan 1947", d: "14 Feb 1947", answer: "a"},
-    
-//     {Question: "Capital of Pakistan is______", a: "Karachi", b: "Lahore", c: "Islamabad", d: "Quetta", answer: "c"},
+{ Question: "Which attribute provides alternate text for image?", a: "title", b: "alt", c: "src", d: "href", answer: "b" },
 
-//     {Question: "National language of Pakistan is______", a: "Punjabi", b: "Urdu", c: "Sindhi", d: "Pashto", answer: "b"},
+{ Question: "HTML is a ______ language.", a: "Programming", b: "Scripting", c: "Markup", d: "Styling", answer: "c" },
 
-//     {Question: "Holy Quran was revealed in the month of______", a: "Rajab", b: "Ramadan", c: "Muharram", d: "Safar", answer: "b"},
+{ Question: "Which tag creates an ordered list?", a: "<ul>", b: "<ol>", c: "<li>", d: "<list>", answer: "b" },
 
-//     {Question: "The first Prophet was______", a: "Ibrahim", b: "Musa", c: "Adam", d: "Nuh", answer: "c"},
+{ Question: "Which tag is used for the largest heading?", a: "<h6>", b: "<h4>", c: "<h2>", d: "<h1>", answer: "d" },
 
-//     {Question: "The last Prophet is______", a: "Isa", b: "Musa", c: "Dawood", d: "Muhammad ﷺ", answer: "d"},
+{ Question: "Which tag is used to create a form?", a: "<input>", b: "<form>", c: "<field>", d: "<submit>", answer: "b" },
 
-//     {Question: "National bird of Pakistan is______", a: "Chakor", b: "Sparrow", c: "Eagle", d: "Pigeon", answer: "a"},
+{ Question: "Which input type hides the text?", a: "text", b: "password", c: "email", d: "hidden", answer: "b" },
 
-//     {Question: "Largest city of Pakistan is______", a: "Karachi", b: "Lahore", c: "Islamabad", d: "Multan", answer: "a"},
+{ Question: "Which tag is used for table row?", a: "<td>", b: "<th>", c: "<tr>", d: "<table>", answer: "c" },
 
-//     {Question: "2 + 2 = ______", a: "3", b: "4", c: "5", d: "6", answer: "b"},
+{ Question: "Which tag defines table header?", a: "<td>", b: "<tr>", c: "<thead>", d: "<th>", answer: "d" },
 
-//     {Question: "The book of Muslims is______", a: "Bible", b: "Torah", c: "Quran", d: "Zaboor", answer: "c"},
+{ Question: "Which attribute is used to open link in new tab?", a: "href", b: "target", c: "open", d: "new", answer: "b" },
 
-//     {Question: "Which gas do plants absorb?______", a: "Oxygen", b: "Nitrogen", c: "Carbon Dioxide", d: "Hydrogen", answer: "c"},
+{ Question: "Which tag is semantic?", a: "<div>", b: "<span>", c: "<section>", d: "<b>", answer: "c" },
 
-//     {Question: "Sun rises from the______", a: "East", b: "West", c: "North", d: "South", answer: "a"},
+{ Question: "Which tag is used to play video?", a: "<media>", b: "<movie>", c: "<video>", d: "<play>", answer: "c" },
 
-//     {Question: "Father of Pakistan is______", a: "Liaquat Ali", b: "Allama Iqbal", c: "Quaid-e-Azam", d: "Sir Syed", answer: "c"},
+{ Question: "Which tag is used to play audio?", a: "<sound>", b: "<audio>", c: "<music>", d: "<mp3>", answer: "b" },
 
-//     {Question: "Area of Pakistan is about______", a: "700,000 km²", b: "796,096 km²", c: "600,000 km²", d: "900,000 km²", answer: "b"},
+{ Question: "Which attribute is mandatory for <img>?", a: "alt", b: "width", c: "height", d: "src", answer: "d" },
 
-//     {Question: "First revelation came in cave______", a: "Safa", b: "Hira", c: "Thawr", d: "Arafat", answer: "b"},
+{ Question: "Which tag is used to create checkbox?", a: "<check>", b: "<input>", c: "<box>", d: "<option>", answer: "b" },
 
-//     {Question: "Fastest land animal is______", a: "Lion", b: "Tiger", c: "Cheetah", d: "Leopard", answer: "c"},
+{ Question: "Which tag is used for dropdown?", a: "<input>", b: "<list>", c: "<select>", d: "<option>", answer: "c" },
 
-//     {Question: "Largest ocean is______", a: "Atlantic", b: "Indian", c: "Arctic", d: "Pacific", answer: "d"},
+{ Question: "HTML comments are written as?", a: "// comment", b: "/* */", c: "<!-- -->", d: "#", answer: "c" },
 
-//     {Question: "H₂O is the chemical name of______", a: "Oxygen", b: "Water", c: "Hydrogen", d: "Salt", answer: "b"},
+{ Question: "Which tag is used to embed another webpage?", a: "<iframe>", b: "<embed>", c: "<object>", d: "<frame>", answer: "a" },
 
-//     {Question: "Which is the closest planet to the Sun?______", a: "Earth", b: "Mars", c: "Mercury", d: "Venus", answer: "c"},
+{ Question: "CSS stands for ________", a: "Creative Style Sheets", b: "Cascading Style Sheets", c: "Computer Style Sheets", d: "Colorful Style Sheets", answer: "b" },
 
-//     {Question: "Which is the hottest planet?______", a: "Earth", b: "Venus", c: "Mars", d: "Jupiter", answer: "b"},
+{ Question: "Which property changes text color?", a: "font-color", b: "color", c: "text-color", d: "fgcolor", answer: "b" },
 
-//     {Question: "How many hours in a day?______", a: "10", b: "24", c: "12", d: "18", answer: "b"},
+{ Question: "Which property changes background color?", a: "bgcolor", b: "background", c: "background-color", d: "color", answer: "c" },
 
-//     {Question: "1 week = ______ days", a: "5", b: "6", c: "7", d: "8", answer: "c"},
+{ Question: "Which property controls text size?", a: "font-size", b: "text-size", c: "size", d: "font-style", answer: "a" },
 
-//     {Question: "National flower of Pakistan is______", a: "Rose", b: "Tulip", c: "Jasmine", d: "Lily", answer: "c"},
+{ Question: "Which unit is relative?", a: "px", b: "cm", c: "%", d: "mm", answer: "c" },
 
-//     {Question: "National animal of Pakistan is______", a: "Markhor", b: "Lion", c: "Horse", d: "Tiger", answer: "a"},
+{ Question: "Which property makes text bold?", a: "font-style", b: "font-weight", c: "bold", d: "text-weight", answer: "b" },
 
-//     {Question: "Which country gifted Pakistan the Bab-e-Pakistan?______", a: "China", b: "Turkey", c: "Saudi Arabia", d: "Iran", answer: "b"},
+{ Question: "Which property aligns text?", a: "align", b: "text-align", c: "position", d: "float", answer: "b" },
 
-//     {Question: "Largest continent is______", a: "Asia", b: "Africa", c: "Europe", d: "Australia", answer: "a"},
+{ Question: "Which property hides overflow content?", a: "display", b: "visibility", c: "overflow", d: "hidden", answer: "c" },
 
-//     {Question: "The Earth is shaped like a______", a: "Square", b: "Flat", c: "Sphere", d: "Triangle", answer: "c"},
+{ Question: "Which display value hides element?", a: "block", b: "none", c: "inline", d: "flex", answer: "b" },
 
-//     {Question: "The biggest planet is______", a: "Mars", b: "Jupiter", c: "Earth", d: "Venus", answer: "b"},
+{ Question: "Which property adds space inside element?", a: "margin", b: "border", c: "padding", d: "gap", answer: "c" },
 
-//     {Question: "Computer brain is______", a: "Mouse", b: "Monitor", c: "Keyboard", d: "CPU", answer: "d"},
+{ Question: "Which property adds space outside element?", a: "padding", b: "margin", c: "gap", d: "space", answer: "b" },
 
-//     {Question: "RAM stands for______", a: "Read At Memory", b: "Random Access Memory", c: "Run Access Machine", d: "Rapid Area Memory", answer: "b"},
+{ Question: "Which position value is default?", a: "relative", b: "absolute", c: "fixed", d: "static", answer: "d" },
 
-//     {Question: "Which device prints paper?______", a: "Scanner", b: "Printer", c: "Mouse", d: "CPU", answer: "b"},
+{ Question: "Which property makes element flexible?", a: "grid", b: "flex", c: "display", d: "box", answer: "c" },
 
-//     {Question: "A triangle has ______ sides", a: "2", b: "3", c: "4", d: "5", answer: "b"},
+{ Question: "Which display creates flexbox?", a: "block", b: "inline", c: "grid", d: "flex", answer: "d" },
 
-//     {Question: "A square has ______ sides", a: "2", b: "3", c: "4", d: "6", answer: "c"},
+{ Question: "Which property changes font?", a: "font-family", b: "font-style", c: "font-weight", d: "font-size", answer: "a" },
 
-//     {Question: "The largest desert is______", a: "Sahara", b: "Arabian", c: "Gobi", d: "Thar", answer: "a"},
+{ Question: "Which pseudo-class selects hover state?", a: ":active", b: ":focus", c: ":hover", d: ":visited", answer: "c" },
 
-//     {Question: "Which animal is known as king of the jungle?______", a: "Elephant", b: "Lion", c: "Tiger", d: "Jaguar", answer: "b"},
+{ Question: "Which selector targets class?", a: "#", b: ".", c: "*", d: "&", answer: "b" },
 
-//     {Question: "The first month of Islamic calendar is______", a: "Ramadan", b: "Muharram", c: "Safar", d: "Rabi-ul-Awwal", answer: "b"},
+{ Question: "Which selector targets id?", a: ".", b: "*", c: "#", d: "@", answer: "c" },
 
-//     {Question: "How many surahs in Quran?______", a: "100", b: "114", c: "120", d: "99", answer: "b"},
+{ Question: "Which property rounds corners?", a: "corner", b: "border-style", c: "border-radius", d: "radius", answer: "c" },
 
-//     {Question: "Shortest surah is______", a: "Ikhlas", b: "Kausar", c: "Falaq", d: "Nas", answer: "b"},
+{ Question: "Which property adds shadow?", a: "shadow", b: "box-shadow", c: "text-shadow", d: "border-shadow", answer: "b" },
 
-//     {Question: "Longest surah is______", a: "Baqarah", b: "Nisa", c: "Aal-Imran", d: "Maidah", answer: "a"},
+{ Question: "JavaScript is a ______ language.", a: "Markup", b: "Styling", c: "Programming", d: "Database", answer: "c" },
 
-//     {Question: "How many prayers daily?______", a: "3", b: "4", c: "5", d: "6", answer: "c"},
+{ Question: "Which keyword declares variable?", a: "var", b: "let", c: "const", d: "All", answer: "d" },
 
-//     {Question: "Zakat is ____ pillar of Islam", a: "1st", b: "2nd", c: "3rd", d: "4th", answer: "c"},
+{ Question: "Which symbol is used for comments?", a: "#", b: "//", c: "<!-- -->", d: "**", answer: "b" },
 
-//     {Question: "Eid-ul-Fitr comes after______", a: "Hajj", b: "Ramadan", c: "Muharram", d: "Rabi-ul-Awwal", answer: "b"},
+{ Question: "Which method shows alert?", a: "alert()", b: "msg()", c: "popup()", d: "notify()", answer: "a" },
 
-//     {Question: "Hajj is performed in month of______", a: "Muharram", b: "Safar", c: "Dhul Hijjah", d: "Ramadan", answer: "c"},
+{ Question: "Which operator compares value & type?", a: "==", b: "=", c: "===", d: "!=", answer: "c" },
 
-//     {Question: "Which is the biggest river in the world?______", a: "Nile", b: "Amazon", c: "Indus", d: "Yangtze", answer: "a"},
+{ Question: "Which data type is true/false?", a: "string", b: "number", c: "boolean", d: "object", answer: "c" },
 
-//     {Question: "Smallest continent is______", a: "Asia", b: "Australia", c: "Africa", d: "Europe", answer: "b"},
+{ Question: "Which function converts string to number?", a: "parseInt()", b: "Number()", c: "Both", d: "String()", answer: "c" },
 
-//     {Question: "Which is the fastest bird?______", a: "Falcon", b: "Pigeon", c: "Crow", d: "Eagle", answer: "a"},
+{ Question: "Which loop runs fixed times?", a: "while", b: "for", c: "do while", d: "foreach", answer: "b" },
 
-//     {Question: "Computer input device is______", a: "Monitor", b: "Keyboard", c: "Printer", d: "Speaker", answer: "b"},
+{ Question: "Which keyword stops loop?", a: "stop", b: "end", c: "break", d: "exit", answer: "c" },
 
-//     {Question: "Monitor is an______ device", a: "Input", b: "Output", c: "Storage", d: "Memory", answer: "b"},
+{ Question: "Which keyword skips iteration?", a: "skip", b: "continue", c: "break", d: "pass", answer: "b" },
 
-//     {Question: "Which planet is called Red Planet?______", a: "Earth", b: "Venus", c: "Mars", d: "Jupiter", answer: "c"},
+{ Question: "Which array method adds element at end?", a: "push()", b: "pop()", c: "shift()", d: "unshift()", answer: "a" },
 
-//     {Question: "Which is the coldest place on Earth?______", a: "Antarctica", b: "Greenland", c: "Iceland", d: "Siberia", answer: "a"},
+{ Question: "Which method removes last element?", a: "push()", b: "shift()", c: "pop()", d: "remove()", answer: "c" },
 
-//     {Question: "Who invented the telephone?______", a: "Edison", b: "Newton", c: "Bell", d: "Tesla", answer: "c"},
+{ Question: "Which method selects element by id?", a: "query()", b: "getElement()", c: "getElementById()", d: "select()", answer: "c" },
 
-//     {Question: "Earth has ______ moon(s)", a: "1", b: "2", c: "3", d: "4", answer: "a"},
+{ Question: "Which event runs on button click?", a: "hover", b: "submit", c: "onclick", d: "onchange", answer: "c" },
 
-//     {Question: "Which is the largest organ of human body?______", a: "Heart", b: "Skin", c: "Liver", d: "Lungs", answer: "b"},
+{ Question: "Which object accesses HTML?", a: "BOM", b: "DOM", c: "Window", d: "Screen", answer: "b" },
 
-//     {Question: "Blood is pumped by______", a: "Liver", b: "Brain", c: "Heart", d: "Lungs", answer: "c"},
+{ Question: "Which keyword defines function?", a: "method", b: "function", c: "def", d: "fn", answer: "b" },
 
-//     {Question: "Water freezes at______°C", a: "50", b: "0", c: "100", d: "25", answer: "b"},
+{ Question: "Which keyword returns value?", a: "break", b: "stop", c: "return", d: "send", answer: "c" },
 
-//     {Question: "Water boils at______°C", a: "50", b: "25", c: "0", d: "100", answer: "d"},
+{ Question: "Which value means no value?", a: "null", b: "undefined", c: "Both", d: "false", answer: "c" },
 
-//     {Question: "Pakistan shares border with______", a: "Turkey", b: "China", c: "Japan", d: "Indonesia", answer: "b"},
+{ Question: "Which method converts object to JSON?", a: "JSON.parse()", b: "JSON.stringify()", c: "toJSON()", d: "convert()", answer: "b" },
 
-//     {Question: "Who wrote Pakistan’s national anthem?______", a: "Hafeez Jalandhari", b: "Allama Iqbal", c: "Faiz", d: "Josh", answer: "a"},
+{ Question: "Which storage saves data permanently?", a: "sessionStorage", b: "cookie", c: "localStorage", d: "cache", answer: "c" }
 
-//     {Question: "Google was founded in______", a: "1998", b: "2000", c: "1990", d: "2004", answer: "a"},
-
-//     {Question: "Facebook was created by______", a: "Bill Gates", b: "Mark Zuckerberg", c: "Steve Jobs", d: "Larry Page", answer: "b"},
-
-//     {Question: "Which is a programming language?______", a: "HTML", b: "C++", c: "CSS", d: "HTTP", answer: "b"},
-
-//     {Question: "HTML stands for______", a: "Hyper Text Markup Language", b: "Home Tool Markup Language", c: "Hyperlink Model Language", d: "None", answer: "a"},
-
-//     {Question: "CSS is used for______", a: "Structure", b: "Design", c: "Database", d: "Logic", answer: "b"},
-
-//     {Question: "JS stands for______", a: "JavaSystem", b: "JavaStone", c: "JavaScript", d: "JustScript", answer: "c"},
-
-//     {Question: "CPU speed measured in______", a: "MB", b: "GHz", c: "GB", d: "TB", answer: "b"},
-
-//     {Question: "Keyboard has______ function keys", a: "10", b: "12", c: "15", d: "8", answer: "b"},
-
-//     {Question: "Which is not a browser?______", a: "Chrome", b: "Firefox", c: "Opera", d: "Android", answer: "d"},
-
-//     {Question: "RAM is______", a: "Permanent", b: "Temporary", c: "External", d: "Optical", answer: "b"},
-
-//     {Question: "ROM is______", a: "Temporary", b: "Permanent", c: "External", d: "Cache", answer: "b"},
-
-//     {Question: "Mouse is an______ device", a: "Input", b: "Output", c: "Memory", d: "Storage", answer: "a"},
-
-//     {Question: "Earth revolves around______", a: "Moon", b: "Mars", c: "Sun", d: "Jupiter", answer: "c"},
-
-//     {Question: "We breathe in______", a: "CO₂", b: "Nitrogen", c: "Oxygen", d: "Hydrogen", answer: "c"},
-
-//     {Question: "Human body has ______ bones", a: "100", b: "206", c: "300", d: "150", answer: "b"},
-
-//     {Question: "Number of days in leap year______", a: "364", b: "365", c: "366", d: "360", answer: "c"},
-
-//     {Question: "Which is an odd number?______", a: "6", b: "8", c: "10", d: "7", answer: "d"},
-
-//     {Question: "Surah Ikhlas has ______ ayat", a: "4", b: "3", c: "5", d: "6", answer: "a"},
-
-//     {Question: "How many Kalimas in Islam?______", a: "5", b: "6", c: "7", d: "3", answer: "b"},
-
-//     {Question: "First Islamic month is______", a: "Shawwal", b: "Muharram", c: "Safar", d: "Rajab", answer: "b"},
-
-//     {Question: "Roza becomes fard in age of______", a: "5", b: "7", c: "Puberty", d: "60", answer: "c"},
-
-//     {Question: "Namaz is fard ______ times a day", a: "3", b: "4", c: "5", d: "6", answer: "c"},
-
-//     {Question: "Prophet Muhammad ﷺ was born in______", a: "Madina", b: "Makkah", c: "Taif", d: "Jerusalem", answer: "b"},
-
-//     {Question: "Pakistan flag has ______ colors", a: "2", b: "3", c: "4", d: "1", answer: "a"},
-
-//     {Question: "Largest province of Pakistan (area)______", a: "Sindh", b: "Punjab", c: "Balochistan", d: "KPK", answer: "c"},
-
-//     {Question: "Smallest province (area)______", a: "Sindh", b: "Punjab", c: "Balochistan", d: "KPK", answer: "a"},
-
-//     {Question: "Pakistan national sport______", a: "Hockey", b: "Cricket", c: "Football", d: "Tennis", answer: "a"},
-
-//     {Question: "Ramadan is the ______ pillar of Islam", a: "1st", b: "2nd", c: "3rd", d: "4th", answer: "d"},
-
-//     {Question: "Prophet Nuh built the______", a: "Masjid", b: "Ark", c: "House", d: "Well", answer: "b"},
-
-//     {Question: "Which animal gives us milk?______", a: "Goat", b: "Lion", c: "Wolf", d: "Snake", answer: "a"},
-
-//     {Question: "Which sense organ helps us see?______", a: "Ear", b: "Nose", c: "Eye", d: "Skin", answer: "c"},
-
-//     {Question: "Which is the smallest prime number?______", a: "1", b: "2", c: "3", d: "5", answer: "b"},
-
-//     {Question: "Which device stores data?______", a: "Monitor", b: "Hard Disk", c: "Keyboard", d: "Mouse", answer: "b"},
-
-//     {Question: "Mosquito has ______ legs", a: "2", b: "4", c: "6", d: "8", answer: "c"},
-
-//     {Question: "Spider has ______ legs", a: "4", b: "6", c: "8", d: "10", answer: "c"},
-
-//     {Question: "Which metal is liquid at room temp?______", a: "Iron", b: "Gold", c: "Mercury", d: "Silver", answer: "c"},
-
-//     {Question: "Urdu was developed in______", a: "Delhi", b: "Lahore", c: "Karachi", d: "Hyderabad", answer: "a"},
-
-//     {Question: "Which Surah is called Heart of Quran?______", a: "Ikhlas", b: "Yaseen", c: "Rahman", d: "Mulk", answer: "b"},
-
-//     {Question: "Surah Fatiha has ______ ayat", a: "7", b: "5", c: "6", d: "8", answer: "a"}
-// ];
-
+];
 
 
 let selectOption = false
 
 let totalQuestions = 5
 
-let index = 0
+let index;
+let qstns;
+let qstnN0;
+let currentUserProgressIndex;
+if(currentUser.Quiz == "HTML"){
+    currentUserProgressIndex =0
+
+    index = 0
+    qstns = 15
+    qstnN0 = 0
+}else if(currentUser.Quiz == "CSS"){
+    currentUserProgressIndex =1
+    index = 20
+    qstns = 15
+    qstnN0 = 0
+}else if(currentUser.Quiz == "JavaScript"){
+    currentUserProgressIndex =2
+    index == 40
+    qstns = 15
+    qstnN0 = 0
+}
 
 let userScore = 0
 
 let answer = false
+function displayHandler(index) {
 
-console.log( usersArr[currentUserIndex].progress , "Hi")
 
-console.log(QstnArray[1][2].Question)
-function displayHandler(indx) {
+    Question.innerText = QstnArray[index].Question
+    a.innerText = QstnArray[index].a
+    b.innerText = QstnArray[index].b
+    c.innerText = QstnArray[index].c
+    d.innerText = QstnArray[index].d
 
-Questionbox.innerText = QstnArray[arrayIndx][index].Question
-a.innerText = QstnArray[arrayIndx][index].a
-b.innerText = QstnArray[arrayIndx][index].b
-c.innerText = QstnArray[arrayIndx][index].c
-d.innerText = QstnArray[arrayIndx][index].d
-
-quizNum.innerHTML = `<h1>${++index}</h1>`
+    quizNum.innerHTML = `<h1>${++qstnN0}</h1>`
 
 
 
-winnerBox.style.display = "none"
-loserBox.style.display = "none"
-scoreContainer.style.display = "none"
-
+    winnerBox.style.display = "none"
+    loserBox.style.display = "none"
 }
 
-displayHandler(QstnArray[arrayIndx][index])
+displayHandler(index)
 
 
 
 
-a.addEventListener("click" , () => {
+a.addEventListener("click", () => {
 
 
 
-a.classList.add("active")
-b.classList.remove("active")
-c.classList.remove("active")
-d.classList.remove("active")
+    a.classList.add("active")
+    b.classList.remove("active")
+    c.classList.remove("active")
+    d.classList.remove("active")
 
-if(QstnArray[arrayIndx][index].answer == "a"){
-    answer = true
-    ++userScore
-    selectOption = true
-    
-}else{
-    answer = false
-    selectOption = true
-}
+    if (QstnArray[index].answer == "a") {
+        answer = true
+        ++userScore
+        selectOption = true
 
-})
-b.addEventListener("click" , () => {
-a.classList.remove("active")
-b.classList.add("active")
-c.classList.remove("active")
-d.classList.remove("active")
-
-if(QstnArray[arrayIndx][index].answer == "b"){
-    answer = true
-    ++userScore
-    selectOption = true
-}else{
-    answer = false
-    selectOption = true
-}
-})
-c.addEventListener("click" , () => {
-a.classList.remove("active")
-b.classList.remove("active")
-c.classList.add("active")
-d.classList.remove("active")
-
-if(QstnArray[arrayIndx][index].answer == "c"){
-   answer = true
-   ++userScore
-   selectOption = true
-}else{
-    answer = false
-    selectOption = true
-}
-})
-d.addEventListener("click" , () => {
-a.classList.remove("active")
-b.classList.remove("active")
-c.classList.remove("active")
-d.classList.add("active")
-
-if(QstnArray[index].answer == "d"){
-    answer = true
-    ++userScore
-    selectOption = true
-}else{
-    answer = false
-    selectOption = true
-}
-})
-btnNext.addEventListener("click" , ()=>{
-
-    if(selectOption == true){
-selectOption = false
-}
-else{
-   return alert("select any one of options")
-    
-}
-    index++
-    displayHandler(QstnArray[arrayIndx][index])
-console.log(answer)
-a.classList.remove("active")
-b.classList.remove("active")
-c.classList.remove("active")
-d.classList.remove("active")
-
-let userPercentage = 0;
-
-
-
-if(index == 5){
-    // hideWarning()
-    if(userScore >= 3){
-winnerBox.style.display = "block"
-loserBox.style.display = "none"
-MainBox.style.display = "none"
-scoreContainer.style.display = "block"
-userPercentage = Math.ceil((userScore/totalQuestions)*100)
-totalScore.innerText = userPercentage
-
-
-
-if(usersArr[currentUserIndex].progress.length > 0){
-
-        usersArr[currentUserIndex].progress.forEach((score , indx) => {
-
-
-         if(score <= 69){
-          usersArr[currentUserIndex].progress[indx] = userPercentage
-          return
-        }
-
-    });
-
-    
-
-    
-    
-}
-// else if(){}
-else{
-    usersArr[currentUserIndex].progress.push(userPercentage)
-// usersArr[currentUserIndex].progress[2] += userPercentage
-}
-
-localStorage.setItem("user1" , JSON.stringify(usersArr))
-console.log(userPercentage)
     } else {
-winnerBox.style.display = "none"
-loserBox.style.display = "block"
-MainBox.style.display = "none"
-scoreContainer.style.display = "block"
-userPercentage = Math.ceil((userScore/totalQuestions)*100)
-totalScore.innerText = userPercentage
-if(usersArr[currentUserIndex].progress.length > 0){
-
-        usersArr[currentUserIndex].progress.forEach((score , indx) => {
-
-
-         if(score <= 69){
-          usersArr[currentUserIndex].progress[indx].push(userPercentage)
-          return
-        }
-
-    });
-
-    
-
-    
-    
-}else{
-    usersArr[currentUserIndex].progress.push(userPercentage)
-}
-usersArr[currentUserIndex].progress.push(userPercentage)
-localStorage.setItem("user1" , JSON.stringify(usersArr))
-console.log(userPercentage)
+        answer = false
+        selectOption = true
     }
-}
-    
+
+})
+b.addEventListener("click", () => {
+    a.classList.remove("active")
+    b.classList.add("active")
+    c.classList.remove("active")
+    d.classList.remove("active")
+
+    if (QstnArray[index].answer == "b") {
+        answer = true
+        ++userScore
+        selectOption = true
+    } else {
+        answer = false
+        selectOption = true
+    }
+})
+c.addEventListener("click", () => {
+    a.classList.remove("active")
+    b.classList.remove("active")
+    c.classList.add("active")
+    d.classList.remove("active")
+
+    if (QstnArray[index].answer == "c") {
+        answer = true
+        ++userScore
+        selectOption = true
+    } else {
+        answer = false
+        selectOption = true
+    }
+})
+d.addEventListener("click", () => {
+    a.classList.remove("active")
+    b.classList.remove("active")
+    c.classList.remove("active")
+    d.classList.add("active")
+
+    if (QstnArray[index].answer == "d") {
+        answer = true
+        ++userScore
+        selectOption = true
+    } else {
+        answer = false
+        selectOption = true
+    }
 })
 
 
 
-// let warningCount = 0;
+let userPercentage;
+function pushdata(){
+            currentUser.progress[currentUserProgressIndex] = userPercentage
 
-// document.addEventListener("visibilitychange", () => {
-//   if (document.hidden) {
-//     warningCount++;
+            usersArr[currentUserIndex] = currentUser
+            localStorage.setItem("currentUser", JSON.stringify(currentUser))
+            localStorage.setItem("user1", JSON.stringify(usersArr))
+}
+btnNext.addEventListener("click", () => {
 
-//     if (warningCount === 1) {
-//       showWarning("⚠ You changed the tab! This is your LAST CHANCE. If you switch again, the quiz will be submitted.");
-//     }
+    if (selectOption == true) {
+        selectOption = false
+    }
+    else {
+        return alert("select any one of options")
 
-//     if (warningCount >= 2) {
-//         console.log("hi")
-//         usersArr[currentUserIndex].attemps += 1;
-//         usersArr[currentUserIndex].progress.push(Math.ceil((userScore/totalQuestions)*100) + "%")
-//         localStorage.setItem("user1" , JSON.stringify(usersArr))
-//       window.location = "dashboard.html";
-//   }
+    }
+    index++
+    displayHandler(index)
+    console.log(answer)
+    a.classList.remove("active")
+    b.classList.remove("active")
+    c.classList.remove("active")
+    d.classList.remove("active")
+console.log(userScore)
+    if (qstnN0 > 5) {
 
-// }});
+        hideWarning()
+        userPercentage = Math.ceil((userScore / totalQuestions) * 100)
+        if (userScore >= 3) {
+            // userPercentage = Math.ceil((userScore / totalQuestions) * 100)
+            pushdata()
+            winnerBox.style.display = "block"
+            userInfo.parentElement.style.display = "none"
+            timerBox.parentElement.style.display = "none"
+            winnerBox.innerHTML = `<div style="font-size: 60px;">🏆</div>
+        <span>Victory!</span>
+        <div class="score">
+        <h1 class="totalScore">${userPercentage}</h1>
+    </div>
+        <a href="dashboard.html" class="dashboard-btn">Go to Dashboard</a>`
+            loserBox.style.display = "none"
+            MainBox.style.display = "none"
+            // scoreContainer.style.display = "block"
+            
+        }else{
+            userInfo.parentElement.style.display = "none"
+            timerBox.parentElement.style.display = "none"
+            loserBox.style.display = "block"
+            loserBox.innerHTML = `<div style="font-size: 60px;">🙁</div>
+        <span>Try Again!</span>
+        <div class="score">
+        <h1 class="totalScore">${userPercentage}</h1>
+    </div>
+        <a href="dashboard.html" class="dashboard-btn">Go to Dashboard</a>`
+        winnerBox.style.display = "none"
+            MainBox.style.display = "none"
+            // scoreContainer.style.display = "block"
+            userPercentage = Math.ceil((userScore / totalQuestions) * 100)
+            pushdata()
+            
+        }
+    }
 
-// function showWarning(msg) {
-//   const bar = document.getElementById("tabWarning");
-//   bar.innerText = msg;
-//   bar.style.display = "block";
-// }
+})
 
-// function hideWarning() {
-//     const bar = document.getElementById("tabWarning");
-//      bar.style.display = "none";
-//      warningCount = 0
-// }
+
+//timerHandler
+
+
+let time = 300; 
+
+
+
+const timer = setInterval(() => {
+  let minutes = Math.floor(time / 60);
+  let seconds = time % 60
+
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  timerText.innerText = `${minutes}:${seconds}`;
+
+  
+  if (time <= 60) {
+
+    timerBox.parentElement.classList.add("danger");
+    timerBox.style.color = "white"
+    timerText.classList.add("blink");
+  }
+
+  if (time <= 0) {
+    clearInterval(timer);
+    alert("Time Up!");
+    currentUser.attemps += 1;
+    pushdata()
     
+    window.location = "dashboard.html";
+  }
+
+  time--;
+}, 1000);
+
+ //tabChangerHandler
+
+function showWarning(msg) {
+  const bar = document.getElementById("tabWarning");
+  bar.innerText = msg;
+  bar.parentElement.style.display = "block";
+}
+
+function hideWarning() {
+    const bar = document.getElementById("tabWarning");
+     bar.style.display = "none";
+     warningCount = 0
+}
+
+localStorage.setItem("check", JSON.stringify())
+
+let warningCount = 0;
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    warningCount++;
+
+    if (warningCount === 1) {
+      showWarning("⚠ You changed the tab! This is your LAST CHANCE. If you switch again, the quiz will be submitted.");
+    }
+
+    if (warningCount >= 2) {
+        currentUser.attemps += 1;
+        userPercentage = Math.ceil((userScore / totalQuestions) * 100)
+        console.log(userPercentage)
+        pushdata()
+            
+      window.location = "dashboard.html";
+  }
+
+}});
+
+

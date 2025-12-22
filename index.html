@@ -4,74 +4,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz app</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 
 <style>
-   *{
+  :root {
+    --primary: #2a2a2a; /* lighter black */
+    --secondary: #3e3e3e; /* medium grey */
+    --text: #d4d4d4; /* light grey text */
+    --accent: #6a5acd; /* purple */
+    --accent-hover: #7b68ee;
+    --accent-gradient: linear-gradient(135deg, #6a5acd, #7b68ee);
+    --card-gradient: linear-gradient(135deg, #2a2a2a, #3e3e3e);
+    --border: #4b4b4b; /* dark border */
+  }
+  
+  @keyframes winPulse {
+    0% { box-shadow: 0 0 5px var(--accent); transform: scale(1); }
+    50% { box-shadow: 0 0 25px var(--accent); transform: scale(1.02); }
+    100% { box-shadow: 0 0 5px var(--accent); transform: scale(1); }
+  }
+
+  @keyframes loseGlow {
+    0% { border-color: var(--border); }
+    50% { border-color: var(--accent); }
+    100% { border-color: var(--border); }
+  }
+
+  * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
   }
 
-  body{
+  body {
     min-height: 100vh;
-    background-color: #ffffff;
-    color: #1f2933; /* text color */
+    background: var(--primary); /* Dark background */
+    color: var(--text);
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
-  /* Smooth blur */
-  .bodyBlur{
-    opacity: 0.4;
-    transition: 0.3s ease;
+  .layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
   }
 
-  /* MAIN AREA */
-  .main{
-    width: 70vw;
-    max-width: 900px;
-    height: 70vh;
+  .left-container {
+    width: 20%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+
+  .right-container {
+    width: 10%;
+    margin-right: 10px;
+    background: var(--secondary);
+    border-left: 1px solid var(--border);
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+
+  .user-info {
+    color: var(--text);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .user-info h3 {
+    margin-bottom: 10px;
+    color: var(--accent);
+  }
+
+  .timer {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--accent);
+  }
+
+  .main {
+    width: 85vw;
+    max-width: 850px;
+    height: 85vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    padding: 24px;
-    margin: 40px auto;
+    padding: 30px;
     border-radius: 20px;
-    background-color: #ffffff;
-    border: 1px solid #f97316;  /* orange accent */
+    background: var(--secondary); /* Dark grey card */
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   }
 
-  /* QUESTION BOX */
-  .QstnDiv{
+  .QstnDiv {
     width: 100%;
     height: 20%;
-    background-color: #ffffff;
-    color: #1f2933;
+    background: linear-gradient(135deg, #2a2a2a, #4c457d); /* Purple Gradient */
     border-radius: 16px;
-    border: 1px solid #f97316;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .quizNumber {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 16px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: 600;
-  }
-  .Qstn{
-    width: 80%;
-  }
-  .quizNumber{
-    width: 20%;
+    flex-shrink: 0;
+    margin-right: 20px;
+    /* border: 2px solid rgba(255, 255, 255, 0.3); */
   }
 
-  /* OPTIONS */
-  .options{
+  .quizNumber h1 {
+    font-size: 24px;
+    color: #fff;
+  }
+
+  .Qstn {
+    flex: 1;
+  }
+
+  .Qstn h3 {
+    font-size: 1.2rem;
+    color: #fff;
+  }
+
+  .options {
     width: 100%;
     height: 60%;
     display: flex;
@@ -79,115 +151,184 @@
     gap: 12px;
   }
 
-  .option{
+  .option {
     height: 100%;
     width: 100%;
-    background-color: #ffffff;
+    background: #333; /* Darker option background */
     border-radius: 12px;
     cursor: pointer;
-    transition: 0.2s ease;
-    border: 1px solid #f97316;
+    border: 1px solid var(--border);
+    transition: 0.3s;
   }
-  .option>p{
+
+  .option p {
     height: 100%;
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--text);
   }
 
-  .option:hover{
-    background-color: #fff7ed; /* soft orange tint */
+  .option:hover {
+    
+    background: rgba(126, 114, 205, 0.1);
   }
 
-  /* Active selected option */
-  .active{
-    background-color: #f97316 !important;
-    color: #ffffff;
-    font-weight: 600;
+  .active {
     border-radius: 12px;
+    border:  1px solid var(--accent) !important;
+    color: #fff;
   }
 
-  /* NEXT BUTTON */
-  .btnNext{
+  .btnNext {
     width: 100%;
     height: 10%;
     display: flex;
     justify-content: flex-end;
   }
 
-  .btn{
-    padding: 10px 22px;
-    background-color: #f97316;
-    color: #ffffff;
-    font-size: 16px;
+  .btn {
+    padding: 10px 30px;
+    background: #4c457d;
+    color: #fff;
+    font-weight: 600;
     border-radius: 999px;
     cursor: pointer;
     border: none;
-    transition: 0.2s ease;
+    box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
   }
 
-  .btn:hover{
-    background-color: #ea580c;
-  }
-
-  /* RESULT BOXES */
   .result-box {
-    height: 40vh;
-    max-width: 700px;
-    width: 70vw;
+    display: none;
+    width: 400px;
+    padding: 40px;
+    background: var(--secondary);
+    border-radius: 20px;
     text-align: center;
-    padding: 24px 0;
-    border-radius: 18px;
-    font-size: 60px;
-    font-weight: bold;
-    color: #1f2933;
-    margin: 24px auto;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid #f97316;
-    background-color: #ffffff;
+    border: 1px solid var(--border);
+    position: fixed;
+    z-index: 10;
   }
+
+  .winner-box { animation: winPulse 2s infinite; border-color: var(--accent); }
+  .loser-box { animation: loseGlow 2s infinite; }
+
   .result-box span {
-    font-size: 24px;
-    margin-top: 10px;
+    display: block;
+    margin: 15px 0;
+    font-size: 22px;
     font-weight: 600;
+    color: var(--text);
   }
-  .score{
-    color: #1f2933;
-    width: 70vw;
-    max-width: 700px;
-    height: 20vh;
-    font-size: 56px;
-    margin: auto;
+
+  .dashboard-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: var(--accent-gradient);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+  
+  .dashboard-btn:hover {
+    filter: brightness(1.1);
+  }
+
+  @media (max-width: 768px) {
+    .left-container {
+      display: none;
+    }
+
+    .right-container {
+      width: 100%;
+      border: none;
+      box-shadow: none;
+      padding: 10px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 1.2rem;
+    }
+
+    .main {
+      width: 90%;
+      max-width: 100%;
+      margin: 0 auto;
+      height: 70vh;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  /* timer */
+.timer{
+  padding: 10px 15px;
+  border-radius: 6px;
+}
+
+.danger{
+  background: #dc2626;
+  color: white;
+    border-left: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-  }
-  
+}
+
+.blink{
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.warningBar{
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    font-weight: bold;
+    height: 40px;
+    display: none;
+}
 </style>
+
 <body>
+  <div class="warningBar">
+<p id="tabWarning"></p>
+  </div>
+  <div class="layout">
+    <div class="left-container">
+      <div class="user-info">
+        <h3>User Information</h3>
+        <p><strong>Name:</strong></p>
+        <p class="quizName"><strong>Quiz Name:</strong></p>
+        <p><strong>Email:</strong></p>
+      </div>
+    </div>
 
-  
-<div id="tabWarning" style="
-  display:none;
-  background:#ff4444;
-  color:white;
-  padding:12px;
-  text-align:center;
-  font-size:18px;
-  font-weight:bold;
-">
-</div>
-
-
- <div class="main">
+    <div class="main">
         <div class="QstnDiv">
             <div class="quizNumber">
-                <h1>30</h1>
+                <h1></h1>
             </div>
             <div class="Qstn">
-            <h3 id="Qstn"></h3>
+                <h3 id="Qstn"></h3>
             </div>
         </div>
         <div class="options">
@@ -200,30 +341,36 @@
             <div class="option">
                 <p id="optionc" data-set="c"></p>
             </div>
-            <div class="option" >
-                <p id="optiond"data-set="d"></p>
+            <div class="option">
+                <p id="optiond" data-set="d"></p>
             </div>
         </div>
         <div class="btnNext">
             <button class="btn">Next</button>
         </div>
-</div>
+    </div>
 
-<div class="animate__animated animate__pulse result-box winner-box">
-  🏆
-  <span>Winner</span>
-</div>
+    <div class="right-container">
+      <div class="timer">
+        <p>Time Left:</p>
+        <p></p>
+      </div>
+    </div>
+  </div>
 
-<div class="animate__animated animate__pulse result-box loser-box">
-  😞
-  <span>Try Again</span>
- </h1>
-</div>
 
-<div class="score">
-    <h1 class="totalScore"></h1>
+    <!-- Winner View -->
 
-</div>
+    <div class="result-box winner-box animate__animated animate__zoomIn">
+        
+    </div>
+
+    <!-- Loser View -->
+    <div class="result-box loser-box animate__animated animate__fadeIn">
+        
+    </div>
+
+    
 
     <script src="app.js"></script>
 </body>

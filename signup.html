@@ -4,133 +4,201 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup - Quiz App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --primary: #2a2a2a;
+          --secondary: #3e3e3e;
+          --text: #d4d4d4;
+          --accent: #6a5acd;
+          --accent-hover: #7b68ee;
+          --accent-gradient: linear-gradient(135deg, #6a5acd, #7b68ee);
+          --card-gradient: linear-gradient(135deg, #2a2a2a, #3e3e3e);
+          --border: #4b4b4b;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        /* Set body to 100% height and remove scroll */
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-color: var(--primary);
+            overflow: hidden;
+        }
+
+        body {
+            color: var(--text);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* 50/50 Split Container filling 100% height */
+        main {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            align-items: center;
+        }
+
+        /* Form Side (50% Width / 100% Height) */
+        .form-container {
+            flex: 0 0 60%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Logo Side (50% Width / 100% Height) as styled in login file */
+        .logo {
+            flex: 0 0 40%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            font-size: 28px;
+            font-weight: bolder;
+            color: var(--accent);
+            letter-spacing: 1px;
+        }
+
+        /* Signup Box */
+        .box {
+            width: 100%;
+            max-width: 400px; 
+            background: rgba(255, 255, 255, 0.02);
+            padding: 35px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Tighter gap for more fields */
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .box h1 {
+            font-size: 25px;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .box input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            color: var(--text);
+            background-color: rgba(58, 58, 58, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .box input:focus {
+            box-shadow: 0 0 8px rgba(106, 90, 205, 0.4);
+            border-color: var(--accent);
+            outline: 2px solid var(--accent);
+        }
+
+        .box button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 999px;
+            border: none;
+            background: var(--accent-gradient);
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
+        }
+
+        .box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(106, 90, 205, 0.4);
+        }
+
+        /* Logo Elements Styling (Question Marks) */
+        .qstnMark {
+            display: inline-block;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .qstnMark:nth-child(1) { transform: rotate(-15deg); font-size: 200px; }
+        .qstnMark:nth-child(2) { transform: rotate(0deg); font-size: 300px; }
+        .qstnMark:nth-child(3) { transform: rotate(15deg); font-size: 200px; }
+
+        /* Output text */
+        #text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            main { flex-direction: column; overflow-y: auto; }
+            .form-container, .logo { flex: 0 0 100%; width: 100%; height: auto; padding: 60px 20px; }
+            .logo { order: -1; min-height: 250px; }
+        }
+    </style>
 </head>
-<style>
-    :root{
-        --accent: #f97316;  /* orange */
-        --text: #1f2933;   /* main text */
-        --bg: #ffffff;    
-    }
-
-    *{
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-    }
-
-    body{
-        height: 100vh;
-        background-color: var(--bg);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: var(--text);
-    }
-
-    /* Main Box */
-    .box{
-        width: 380px;
-        background-color: var(--bg);
-        padding: 35px;
-        border-radius: 18px;
-        border: 1px solid var(--accent);
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-        text-align: center;
-    }
-
-    .box h1{
-        font-size: 28px;
-        color: var(--text);
-        margin-bottom: 10px;
-    }
-
-    /* Input Fields */
-    .box input{
-        width: 100%;
-        padding: 12px;
-        border-radius: 12px;
-        border: 1px solid var(--accent);
-        background-color: var(--bg);
-        font-size: 16px;
-        outline: none;
-        transition: 0.2s ease;
-        color: var(--text);
-    }
-
-    .box input:focus{
-        background-color: #fff7ed;
-    }
-
-    /* Button */
-    .box button{
-        width: 100%;
-        padding: 12px;
-        margin-top: 5px;
-        font-size: 18px;
-        border-radius: 999px;
-        border: none;
-        background-color: var(--accent);
-        color: #fff;
-        cursor: pointer;
-        transition: 0.2s ease;
-    }
-
-    .box button:hover{
-        background-color: #ea580c;
-    }
-
-    /* Output text */
-    #text{
-        text-align: center;
-        margin-top: 20px;
-        font-size: 20px;
-        color: var(--text);
-    }
-    .header{
-        margin-top: 20px;
-        width: 100%;
-        padding: 15px 0;
-        text-align: center;
-        margin-bottom: 25px;
-    }
-
-    .header h2{
-        font-size: 28px;
-        font-weight: 600;
-        color: var(--accent);
-        letter-spacing: 1px;
-    }
-
-</style>
 <body>
     
-    <div class="header">
-    <h2>Quiz App</h2>
-</div>
+<main>
+    <div class="form-container">
+        <div class="header">
+            <h2>Quiz App</h2>
+        </div>
 
+        <div class="box">
+            <h1>Signup Form</h1>
+            <input type="text" placeholder="First Name" id="firstName">
+            <input type="text" placeholder="Second Name" id="secondName">
+            <input type="email" placeholder="Email" id="email">
+            <input type="password" placeholder="Password" id="password">
+            <input type="password" placeholder="Confirm Password" id="confirmPassword">
+            <button>Submit</button>
+        </div>
 
-<div class="box">
-<h1>signup Form</h1>
+        <div>
+            <h1 id="text"></h1>
+        </div>
+    </div>
 
-<input type="text" placeholder="FirstName" id="firstName">
-<input type="text" placeholder="SecondName" id="secondName">
-<input type="email" placeholder="email" id="email">
-<input type="password" placeholder="password" id="password">
-<input type="password" placeholder="confirmPassword" id="confirmPassword">
-
-
-<button>submit</button>
-</div>
-
-<div>
-    <h1 id="text">
-        
-    </h1>
-</div>
-    <script src="signup.js"></script>
+    <div class="logo">
+        <span class="qstnMark">?</span>
+        <span class="qstnMark">?</span>
+        <span class="qstnMark">?</span>
+    </div>
+</main>
+<script src="signup.js"></script>
 </body>
 </html>

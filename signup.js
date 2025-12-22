@@ -5,7 +5,7 @@ let password = document.querySelector("#password")
 let confirmPassword = document.querySelector("#confirmPassword")
 let text = document.querySelector("#text")
 let btn = document.querySelector("button")
-
+let profileImg = document.querySelector("#profileImg")
 
 
 
@@ -28,8 +28,8 @@ e.preventDefault
         "email" : email.value,
         "password" : password.value,
         "attemps" :0,
-        "progress" : ["HTML","CSS","JS"],
-        "QuestionsArray" : 0
+        "QuizName":'', 
+        "progress" : []
     }
 
 
@@ -43,8 +43,6 @@ let checkEmail = usersArr.filter((user) => {
     return user.email === objUser.email
 })
 
-console.log(checkEmail , "exist email" , checkEmail.length)
-
 
 if(checkEmail.length >= 1){
    return alert("user's email exist ")
@@ -56,3 +54,4 @@ if(checkEmail.length >= 1){
 
     window.location = "login.html"
 })
+

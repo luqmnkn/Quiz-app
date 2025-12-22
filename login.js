@@ -7,7 +7,7 @@ const loginBtn = document.querySelector("#loginBtn")
 
 let loginUsers = JSON.parse(localStorage.getItem("user1")) || [];
 
-let thisUser = JSON.parse(localStorage.getItem("currentUserEmail"))
+let thisUser = JSON.parse(localStorage.getItem("currentUser"))
 
 loginBtn.addEventListener("click" , (e) => {
 
@@ -15,19 +15,15 @@ loginBtn.addEventListener("click" , (e) => {
 
     let checkemail = loginUsers.find((user) => {
        return user.email === loginEmail.value
-       
-       
     })
 
 
     let checkpassword = loginUsers.find((user) => {
         return user.password === loginPassword.value
-        
-
     })
 
     if(checkpassword && checkemail !== undefined){
-        localStorage.setItem("currentUserEmail" ,JSON.stringify(checkemail))
+        localStorage.setItem("currentUser" ,JSON.stringify(checkemail))
         console.log("user exist")
         window.location = "dashboard.html"
     } else if (checkpassword || checkemail== undefined){

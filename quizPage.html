@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz app</title>
+</head>
+
+<style>
+  :root {
+    --primary: #2a2a2a; /* lighter black */
+    --secondary: #3e3e3e; /* medium grey */
+    --text: #d4d4d4; /* light grey text */
+    --accent: #6a5acd; /* purple */
+    --accent-hover: #7b68ee;
+    --accent-gradient: linear-gradient(135deg, #6a5acd, #7b68ee);
+    --card-gradient: linear-gradient(135deg, #2a2a2a, #3e3e3e);
+    --border: #4b4b4b; /* dark border */
+  }
+  
+  @keyframes winPulse {
+    0% { box-shadow: 0 0 5px var(--accent); transform: scale(1); }
+    50% { box-shadow: 0 0 25px var(--accent); transform: scale(1.02); }
+    100% { box-shadow: 0 0 5px var(--accent); transform: scale(1); }
+  }
+
+  @keyframes loseGlow {
+    0% { border-color: var(--border); }
+    50% { border-color: var(--accent); }
+    100% { border-color: var(--border); }
+  }
+
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--primary); /* Dark background */
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+  }
+
+  .left-container {
+    width: 20%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+
+  .right-container {
+    width: 10%;
+    margin-right: 10px;
+    background: var(--secondary);
+    border-left: 1px solid var(--border);
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+
+  .user-info {
+    color: var(--text);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .user-info h3 {
+    margin-bottom: 10px;
+    color: var(--accent);
+  }
+
+  .timer {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--accent);
+  }
+
+  .main {
+    width: 85vw;
+    max-width: 850px;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    border-radius: 20px;
+    background: var(--secondary); /* Dark grey card */
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .QstnDiv {
+    width: 100%;
+    height: 20%;
+    background: linear-gradient(135deg, #2a2a2a, #4c457d); /* Purple Gradient */
+    border-radius: 16px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .quizNumber {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    margin-right: 20px;
+    /* border: 2px solid rgba(255, 255, 255, 0.3); */
+  }
+
+  .quizNumber h1 {
+    font-size: 24px;
+    color: #fff;
+  }
+
+  .Qstn {
+    flex: 1;
+  }
+
+  .Qstn h3 {
+    font-size: 1.2rem;
+    color: #fff;
+  }
+
+  .options {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option {
+    height: 100%;
+    width: 100%;
+    background: #333; /* Darker option background */
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: 0.3s;
+  }
+
+  .option p {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text);
+  }
+
+  .option:hover {
+    
+    background: rgba(126, 114, 205, 0.1);
+  }
+
+  .active {
+    border-radius: 12px;
+    border:  1px solid var(--accent) !important;
+    color: #fff;
+  }
+
+  .btnNext {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn {
+    padding: 10px 30px;
+    background: #4c457d;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 999px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
+  }
+
+  .result-box {
+    display: none;
+    width: 400px;
+    padding: 40px;
+    background: var(--secondary);
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid var(--border);
+    position: fixed;
+    z-index: 10;
+  }
+
+  .winner-box { animation: winPulse 2s infinite; border-color: var(--accent); }
+  .loser-box { animation: loseGlow 2s infinite; }
+
+  .result-box span {
+    display: block;
+    margin: 15px 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .dashboard-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: var(--accent-gradient);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+  
+  .dashboard-btn:hover {
+    filter: brightness(1.1);
+  }
+
+  @media (max-width: 768px) {
+    .left-container {
+      display: none;
+    }
+
+    .right-container {
+      width: 100%;
+      border: none;
+      box-shadow: none;
+      padding: 10px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 1.2rem;
+    }
+
+    .main {
+      width: 90%;
+      max-width: 100%;
+      margin: 0 auto;
+      height: 70vh;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  /* timer */
+.timer{
+  padding: 10px 15px;
+  border-radius: 6px;
+}
+
+.danger{
+  background: #dc2626;
+  color: white;
+    border-left: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.blink{
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.warningBar{
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    font-weight: bold;
+    height: 40px;
+    display: none;
+}
+</style>
+
+<body>
+  <div class="warningBar">
+<p id="tabWarning"></p>
+  </div>
+  <div class="layout">
+    <div class="left-container">
+      <div class="user-info">
+        <h3>User Information</h3>
+        <p><strong>Name:</strong></p>
+        <p class="quizName"><strong>Quiz Name:</strong></p>
+        <p><strong>Email:</strong></p>
+      </div>
+    </div>
+
+    <div class="main">
+        <div class="QstnDiv">
+            <div class="quizNumber">
+                <h1></h1>
+            </div>
+            <div class="Qstn">
+                <h3 id="Qstn"></h3>
+            </div>
+        </div>
+        <div class="options">
+            <div class="option">
+                <p id="optiona" data-set="a"></p>
+            </div>
+            <div class="option">
+                <p id="optionb" data-set="b"></p>
+            </div>
+            <div class="option">
+                <p id="optionc" data-set="c"></p>
+            </div>
+            <div class="option">
+                <p id="optiond" data-set="d"></p>
+            </div>
+        </div>
+        <div class="btnNext">
+            <button class="btn">Next</button>
+        </div>
+    </div>
+
+    <div class="right-container">
+      <div class="timer">
+        <p>Time Left:</p>
+        <p></p>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Winner View -->
+
+    <div class="result-box winner-box animate__animated animate__zoomIn">
+        
+    </div>
+
+    <!-- Loser View -->
+    <div class="result-box loser-box animate__animated animate__fadeIn">
+        
+    </div>
+
+    
+
+    <script src="app.js"></script>
+</body>
+</html>

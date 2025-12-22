@@ -144,8 +144,12 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            main { flex-direction: column-reverse; }
-            .form, .logo { width: 100%; }
+            main { 
+                justify-content: center;
+                align-items: center;
+                flex-direction: column }
+            .form { width: 100%; }
+            .logo { display: none;  }
         }
     </style>
 </head>

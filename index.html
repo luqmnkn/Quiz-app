@@ -164,9 +164,24 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            main { flex-direction: column; overflow-y: auto; }
-            .form-container, .logo { flex: 0 0 100%; width: 100%; height: auto; padding: 60px 20px; }
-            .logo { order: -1; min-height: 250px; }
+            .form-container{
+                padding: 0;
+            }
+            main {
+                flex-direction: column;
+                 gap: 30px;
+                 overflow-y: auto; }
+
+            .form-container{
+                flex: 0 0 auto;
+                  width: 100%;
+                  height: 100vh;
+                   padding: 60px 20px;
+                 }
+            
+            .logo { 
+                display: none;
+            }
         }
     </style>
 </head>

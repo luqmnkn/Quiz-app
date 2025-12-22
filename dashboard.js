@@ -109,7 +109,7 @@ function startQuiz(quizName) {
   )
   currentUser.Quiz = quizName
   localStorage.setItem("currentUser", JSON.stringify(currentUser))
-  window.location = "index.html"
+  window.location = "quizPage.html"
 };
 
 

@@ -24,10 +24,9 @@ loginBtn.addEventListener("click" , (e) => {
 
     if(checkpassword && checkemail !== undefined){
         localStorage.setItem("currentUser" ,JSON.stringify(checkemail))
-        console.log("user exist")
         window.location = "dashboard.html"
     } else if (checkpassword || checkemail== undefined){
-        alert("user not exist Please sign up")
+        alert("Wrong credentials")
         
     }
 

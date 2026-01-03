@@ -10,19 +10,11 @@ const logout = document.querySelector(".logout")
 const profilePic = document.querySelector(".profilePic")
 
 
-
-
-
-
-
-
-
-
 let usersArr = JSON.parse(localStorage.getItem("user1"))
 
 let currentUser = JSON.parse(localStorage.getItem("currentUser"))
 if(!currentUser){
-  window.location = "signup.html"
+  window.location = "index.html"
 }
 
 let currentUserIndex = usersArr.findIndex((elm)=>{
@@ -37,17 +29,14 @@ profilePic.innerHTML = `<i class="fa-solid fa-user"></i>`
 
 
 currentUser.progress.forEach((score ,indx) => {
-  console.log(score)
 if(typeof(score) == "number"){
     if(score >= 70){
       passFailBox[indx].innerText = "pass"
-      passFailBox[indx].style.backgroundColor = "#4aa84a" // Green for pass - matches palette
-    console.log("pass")
+      passFailBox[indx].style.backgroundColor = "#4aa84a" // Green for pass 
   } else if (score <= 69 ){
     passFailBox[indx].innerText = "fail"
-      passFailBox[indx].style.backgroundColor = "#dc3545" // Red for fail - matches palette
+      passFailBox[indx].style.backgroundColor = "#dc3545" // Red for fail
       console.log(passFailBox)
-    console.log("fail")
   }}else if (typeof(score) != "number"){
     scores[indx].innerText = ""
   }
@@ -56,6 +45,14 @@ if(typeof(score) == "number"){
 
 })
 
+scores.forEach((score , indx)=>{
+  if(currentUser.progress[indx] == undefined){
+    scores[indx].innerText = 0
+  }else{
+    scores[indx].innerText = currentUser.progress[indx]
+
+  }
+})
 
 
 
@@ -71,21 +68,21 @@ if(typeof(score) == "number"){
 
   }else{
     secondQuizLock.classList.add("fa-lock")
-    secondQuizLock.style.color = "#ffffff" // White lock icon - matches CSS
-    secondQuizLock.parentElement.style.color = "#ffffff" // White text
-    secondQuizLock.parentElement.style.backgroundColor = "transparent" // Use gradient from CSS
+    secondQuizLock.style.color = "#ffffff" 
+    secondQuizLock.parentElement.style.color = "#ffffff" 
+    secondQuizLock.parentElement.style.backgroundColor = "transparent" 
 
   }
 
    
   if(currentUser.progress[1] >= 70){
-    thirdQuizLock.parentElement.setAttribute("onclick", "startQuiz('JavaScipt')");
+    thirdQuizLock.parentElement.setAttribute("onclick", "startQuiz('JavaScript')");
     thirdQuizLock.classList.add("fa-lock-open")
   }else{
     thirdQuizLock.classList.add("fa-lock")
-    thirdQuizLock.style.color = "#ffffff" // White lock icon - matches CSS
-    thirdQuizLock.parentElement.style.color = "#ffffff" // White text
-    thirdQuizLock.parentElement.style.backgroundColor = "transparent" // Use gradient from CSS
+    thirdQuizLock.style.color = "#ffffff" 
+    thirdQuizLock.parentElement.style.color = "#ffffff" 
+    thirdQuizLock.parentElement.style.backgroundColor = "transparent" 
   }
 
 

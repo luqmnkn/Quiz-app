@@ -1,33 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz app</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz app</title>
 </head>
 
 <style>
   :root {
-    --primary: #2a2a2a; 
-    --secondary: #3e3e3e; 
-    --text: #d4d4d4; 
-    --accent: #6a5acd; 
+    --primary: #2a2a2a;
+    --secondary: #3e3e3e;
+    --text: #d4d4d4;
+    --accent: #6a5acd;
     --accent-hover: #7b68ee;
     --accent-gradient: linear-gradient(135deg, #6a5acd, #7b68ee);
     --card-gradient: linear-gradient(135deg, #2a2a2a, #3e3e3e);
-    --border: #4b4b4b; 
+    --border: #4b4b4b;
   }
-  
+
   @keyframes winPulse {
-    0% { box-shadow: 0 0 5px var(--accent); transform: scale(1); }
-    50% { box-shadow: 0 0 25px var(--accent); transform: scale(1.02); }
-    100% { box-shadow: 0 0 5px var(--accent); transform: scale(1); }
+    0% {
+      box-shadow: 0 0 5px var(--accent);
+      transform: scale(1);
+    }
+
+    50% {
+      box-shadow: 0 0 25px var(--accent);
+      transform: scale(1.02);
+    }
+
+    100% {
+      box-shadow: 0 0 5px var(--accent);
+      transform: scale(1);
+    }
   }
 
   @keyframes loseGlow {
-    0% { border-color: var(--border); }
-    50% { border-color: var(--accent); }
-    100% { border-color: var(--border); }
+    0% {
+      border-color: var(--border);
+    }
+
+    50% {
+      border-color: var(--accent);
+    }
+
+    100% {
+      border-color: var(--border);
+    }
   }
 
   * {
@@ -39,7 +59,7 @@
 
   body {
     min-height: 100vh;
-    background: var(--primary); 
+    background: var(--primary);
     color: var(--text);
     display: flex;
     justify-content: center;
@@ -99,7 +119,7 @@
     gap: 20px;
     padding: 30px;
     border-radius: 20px;
-    background: var(--secondary); 
+    background: var(--secondary);
     border: 1px solid var(--border);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   }
@@ -107,7 +127,7 @@
   .QstnDiv {
     width: 100%;
     height: 20%;
-    background: linear-gradient(135deg, #2a2a2a, #4c457d); 
+    background: linear-gradient(135deg, #2a2a2a, #4c457d);
     border-radius: 16px;
     display: flex;
     justify-content: flex-start;
@@ -153,7 +173,7 @@
   .option {
     height: 100%;
     width: 100%;
-    background: #333; 
+    background: #333;
     border-radius: 12px;
     cursor: pointer;
     border: 1px solid var(--border);
@@ -169,13 +189,13 @@
   }
 
   .option:hover {
-    
+
     background: rgba(126, 114, 205, 0.1);
   }
 
   .active {
     border-radius: 12px;
-    border:  1px solid var(--accent) !important;
+    border: 1px solid var(--accent) !important;
     color: #fff;
   }
 
@@ -209,8 +229,14 @@
     z-index: 10;
   }
 
-  .winner-box { animation: winPulse 2s infinite; border-color: var(--accent); }
-  .loser-box { animation: loseGlow 2s infinite; }
+  .winner-box {
+    animation: winPulse 2s infinite;
+    border-color: var(--accent);
+  }
+
+  .loser-box {
+    animation: loseGlow 2s infinite;
+  }
 
   .result-box span {
     display: block;
@@ -231,7 +257,7 @@
     font-weight: 600;
     transition: 0.3s;
   }
-  
+
   .dashboard-btn:hover {
     filter: brightness(1.1);
   }
@@ -267,31 +293,40 @@
   }
 
   /* timer */
-.timer{
-  padding: 10px 15px;
-  border-radius: 6px;
-}
+  .timer {
+    padding: 10px 15px;
+    border-radius: 6px;
+  }
 
-.danger{
-  background: #dc2626;
-  color: white;
+  .danger {
+    background: #dc2626;
+    color: white;
     border-left: 1px solid var(--border);
     padding: 5px;
     border-radius: 50px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-}
+  }
 
-.blink{
-  animation: blink 1s infinite;
-}
+  .blink {
+    animation: blink 1s infinite;
+  }
 
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
-}
-.warningBar{
+  @keyframes blink {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .warningBar {
     width: 100%;
     background-color: red;
     color: white;
@@ -304,12 +339,12 @@
     font-weight: bold;
     height: 40px;
     display: none;
-}
+  }
 </style>
 
 <body>
   <div class="warningBar">
-<p id="tabWarning"></p>
+    <p id="tabWarning"></p>
   </div>
   <div class="layout">
     <div class="left-container">
@@ -322,31 +357,31 @@
     </div>
 
     <div class="main">
-        <div class="QstnDiv">
-            <div class="quizNumber">
-                <h1></h1>
-            </div>
-            <div class="Qstn">
-                <h3 id="Qstn"></h3>
-            </div>
+      <div class="QstnDiv">
+        <div class="quizNumber">
+          <h1></h1>
         </div>
-        <div class="options">
-            <div class="option">
-                <p id="optiona" data-set="a"></p>
-            </div>
-            <div class="option">
-                <p id="optionb" data-set="b"></p>
-            </div>
-            <div class="option">
-                <p id="optionc" data-set="c"></p>
-            </div>
-            <div class="option">
-                <p id="optiond" data-set="d"></p>
-            </div>
+        <div class="Qstn">
+          <h3 id="Qstn"></h3>
         </div>
-        <div class="btnNext">
-            <button class="btn">Next</button>
+      </div>
+      <div class="options">
+        <div class="option">
+          <p id="optiona" data-set="a"></p>
         </div>
+        <div class="option">
+          <p id="optionb" data-set="b"></p>
+        </div>
+        <div class="option">
+          <p id="optionc" data-set="c"></p>
+        </div>
+        <div class="option">
+          <p id="optiond" data-set="d"></p>
+        </div>
+      </div>
+      <div class="btnNext">
+        <button class="btn">Next</button>
+      </div>
     </div>
 
     <div class="right-container">
@@ -358,19 +393,20 @@
   </div>
 
 
-    <!-- Winner View -->
+  <!-- Winner View -->
 
-    <div class="result-box winner-box animate__animated animate__zoomIn">
-        
-    </div>
+  <div class="result-box winner-box animate__animated animate__zoomIn">
 
-    <!-- Loser View -->
-    <div class="result-box loser-box animate__animated animate__fadeIn">
-        
-    </div>
+  </div>
 
-    
+  <!-- Loser View -->
+  <div class="result-box loser-box animate__animated animate__fadeIn">
 
-    <script src="app.js"></script>
+  </div>
+
+
+
+  <script src="app.js"></script>
 </body>
+
 </html>
